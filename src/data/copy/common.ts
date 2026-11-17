@@ -67,8 +67,8 @@ export const FORM = {
   q4: {
     label: { th: 'จ่าย {price} ไหม', en: 'Would you pay {price}' },
     hint: {
-      th: 'แผนที่วางไว้ {price} ต่อเดือน ส่งได้ 20,000 ฉบับ ราคายังไม่สรุป',
-      en: 'Planned: {price} a month for 20,000 emails. Not final.',
+      th: 'แผนที่วางไว้ {price} ต่อเดือน (ประมาณ {thb}) ส่งได้ 20,000 ฉบับ ราคายังไม่สรุป',
+      en: 'Planned: {price} a month (about {thb}) for 20,000 emails. Not final.',
     },
     options: [
       { value: 'yes', label: { th: 'จ่าย', en: "Yes, I'd pay" } },

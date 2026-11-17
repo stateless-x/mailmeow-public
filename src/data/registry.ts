@@ -6,7 +6,6 @@ export const ENTITY: Entity = {
   url: 'https://mailmeow.dev',
   docsUrl: 'https://docs.mailmeow.dev',
   contactEmail: undefined,
-  waitlist: { price: '$9' },
   docsLive: false,
   lastVerified: '2026-11-17',
   privacyUpdated: '2026-11-17',
@@ -131,7 +130,7 @@ export const FEATURES: Feature[] = [
   {
     id: 'auto-suppression',
     status: 'live',
-    label: { th: 'หยุดส่งไปยังอีเมลที่เด้งหรือโดนกดรายงาน spam ให้เอง', en: 'Bounced and spam-reported addresses are skipped automatically' },
+    label: { th: 'หยุดส่งไปยังอีเมลที่ตีกลับหรือถูกแจ้งสแปม ให้เอง', en: 'Bounced and spam-reported addresses are skipped automatically' },
     proof: 'docs/user/concepts.md',
   },
   {

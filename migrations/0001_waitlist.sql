@@ -8,7 +8,8 @@ CREATE TABLE waitlist_signups (
   volume        TEXT,                           -- q3 key
   would_pay     TEXT NOT NULL,                  -- q4 key: yes | not-yet | no
   promptpay     TEXT,                           -- q5 key
-  price_variant TEXT NOT NULL,                  -- price shown in q4, e.g. $9
+  price_variant TEXT NOT NULL,                  -- price test arm: 9 | 12 | nojs (no JavaScript, so no arm)
+  source        TEXT NOT NULL DEFAULT 'direct', -- which link brought them: fb1 | fb2 | x | threads | video | meetup | direct (lib/source.ts)
   lang          TEXT NOT NULL CHECK (lang IN ('th', 'en')),
   consent_at    TEXT NOT NULL,                  -- ISO 8601 UTC
   created_at    TEXT NOT NULL,                  -- ISO 8601 UTC

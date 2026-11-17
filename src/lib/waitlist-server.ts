@@ -1,5 +1,7 @@
 // Pure parts of POST /api/waitlist: parse, validate, normalise, hash. No I/O, no Cloudflare types.
 import { FORM } from '../data/copy/common';
+import { isSubmitVariant, type SubmitVariant } from './price-variant';
+import { normalizeSource, type Source } from './source';
 import { validateWaitlist } from './waitlist';
 
 export const MAX_BODY_BYTES = 4096;
@@ -18,6 +20,10 @@ export interface Signup {
   wouldPay: string;
   promptpay: string | null;
   lang: Lang;
+  /** '9', '12' or 'nojs' (a submit without JavaScript). */
+  priceVariant: SubmitVariant;
+  /** An allow-listed source, or 'direct'. Never refused: an unknown value just becomes 'direct'. */
+  source: Source;
 }
 
 export interface Parsed extends Signup {
@@ -100,6 +106,8 @@ export function validateRaw(raw: Raw): { ok: true; value: Parsed } | { ok: false
   if (aiTools.length !== new Set(aiRaw).size) errors.add('invalid');
 
   if (raw.lang !== 'th' && raw.lang !== 'en') errors.add('invalid');
+  // The variant is stored as sent, so anything but the three known values is refused rather than counted.
+  if (!isSubmitVariant(raw.price_variant)) errors.add('invalid');
 
   const tokenRaw = raw.turnstileToken ?? raw['cf-turnstile-response'];
   const token = typeof tokenRaw === 'string' ? tokenRaw : '';
@@ -116,6 +124,8 @@ export function validateRaw(raw: Raw): { ok: true; value: Parsed } | { ok: false
       wouldPay: wouldPay as string,
       promptpay,
       lang: raw.lang as Lang,
+      priceVariant: raw.price_variant as SubmitVariant,
+      source: normalizeSource(raw.source),
       consent,
       token,
     },

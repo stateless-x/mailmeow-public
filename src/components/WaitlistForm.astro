@@ -1,7 +1,6 @@
 ---
 import { FORM } from '../data/copy/common';
 import type { Option } from '../data/copy/common';
-import { ENTITY } from '../data/registry';
 import { isProduction, resolveTurnstileSiteKey } from '../lib/env';
 import { plain, rich } from '../lib/context';
 import type { Bi, Lang } from '../data/types';
@@ -37,7 +36,9 @@ const groups: { name: string; type: 'radio' | 'checkbox'; label: string; hint?: 
   <noscript><p class="hint">{FORM.noscript[lang]}</p></noscript>
   <form method="post" action="/api/waitlist" data-waitlist data-i18n={JSON.stringify(i18n)} data-turnstile-key={siteKey ?? undefined}>
     <input type="hidden" name="lang" value={lang} />
-    <input type="hidden" name="price" value={ENTITY.waitlist.price} />
+    <!-- "nojs" is what a submit without JavaScript carries; paintPriceVariant() (inline script in Base.astro) sets 9 or 12. -->
+    <input type="hidden" name="price_variant" value="nojs" data-price-field />
+    <input type="hidden" name="source" value="direct" data-source-field />
 
     <div class="field">
       <label for="wl-email">{FORM.email.label[lang]}</label>

@@ -1,5 +1,4 @@
 // Request handler for POST /api/waitlist. All I/O (D1, Turnstile, clock) is injected so tests run offline.
-import { ENTITY } from '../data/registry';
 import {
   MAX_BODY_BYTES,
   RATE_LIMIT,
@@ -102,11 +101,11 @@ export async function handleWaitlist(request: Request, env: Env, deps: Deps): Pr
   const iso = new Date(now).toISOString();
   await DB.prepare(
     `INSERT INTO waitlist_signups
-       (email, building, ai_tools, volume, would_pay, promptpay, price_variant, lang, consent_at, created_at, ip_hash)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       (email, building, ai_tools, volume, would_pay, promptpay, price_variant, source, lang, consent_at, created_at, ip_hash)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(email) DO NOTHING`,
   )
-    .bind(s.email, s.building, JSON.stringify(s.aiTools), s.volume, s.wouldPay, s.promptpay, ENTITY.waitlist.price, s.lang, iso, iso, ipHash)
+    .bind(s.email, s.building, JSON.stringify(s.aiTools), s.volume, s.wouldPay, s.promptpay, s.priceVariant, s.source, s.lang, iso, iso, ipHash)
     .run();
 
   return native

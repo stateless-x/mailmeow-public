@@ -13,6 +13,7 @@
     "typecheck": "astro check",
     "test:unit": "bun test tests/unit",
     "test:dist": "bun test tests/dist",
+    "preflight": "bun run scripts/preflight.ts",
     "check": "bun run typecheck && bun run test:unit && bun run build && bun run test:dist"
   },
   "dependencies": {

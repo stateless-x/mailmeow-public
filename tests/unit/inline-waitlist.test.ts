@@ -2,11 +2,11 @@ import { describe, expect, test } from 'bun:test';
 import { renderInline, plainText } from '../../src/lib/inline';
 import { validateWaitlist } from '../../src/lib/waitlist';
 
-const ctx = { lang: 'th' as const, price: '$9', contactHtml: '<a>c</a>', lastVerified: 'V', date: 'D' };
+const ctx = { lang: 'th' as const, contactHtml: '<a>c</a>', lastVerified: 'V', date: 'D' };
 
 describe('renderInline', () => {
   test('fills known placeholders, leaves {email} and {id} alone', () => {
-    expect(renderInline('{price} {contact} {LAST_VERIFIED} {date} {email}', ctx)).toBe('$9 <a>c</a> V D {email}');
+    expect(renderInline('{contact} {LAST_VERIFIED} {date} {email}', ctx)).toBe('<a>c</a> V D {email}');
     expect(renderInline('`GET /emails/{id}`', ctx)).toBe('<code>GET /emails/{id}</code>');
   });
   test('escapes HTML, renders bold, highlight and links', () => {
@@ -14,8 +14,13 @@ describe('renderInline', () => {
       '&lt;b&gt; <strong>x</strong> <span class="hl nw">y</span> <a href="/th/privacy/">t</a> <a href="https://pooh.fyi">u</a>',
     );
   });
-  test('plainText drops markers', () => {
-    expect(plainText('**a** `b` [c](@x) ==d== {price}', { price: '$9', contactText: '', lastVerified: '', date: '' })).toBe('a b c d $9');
+  test('{price} and {thb} render a swappable span whose visible text is the $9 default', () => {
+    expect(renderInline('{price} {thb}', ctx)).toBe(
+      '<span data-price data-v9="$9" data-v12="$12">$9</span> <span data-price data-v9="฿299" data-v12="฿399">฿299</span>',
+    );
+  });
+  test('plainText drops markers and resolves prices to the default', () => {
+    expect(plainText('**a** `b` [c](@x) ==d== {price} {thb}', { contactText: '', lastVerified: '', date: '' })).toBe('a b c d $9 ฿299');
   });
 });
 

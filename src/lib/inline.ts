@@ -1,21 +1,25 @@
 import type { Lang } from '../data/types';
 import { pagePath } from './seo';
+import { PRICE_VARIANTS } from './price-variant';
 
 export interface InlineContext {
   lang: Lang;
-  price: string;
   /** Already-rendered HTML for {contact}. */
   contactHtml: string;
   lastVerified: string;
   date: string;
 }
 
+/** A price the browser may swap for the visitor's variant (lib/price-variant.ts). The visible text is the $9 default. */
+const priceSpan = (kind: 'usd' | 'thb'): string =>
+  `<span data-price data-v9="${PRICE_VARIANTS['9'][kind]}" data-v12="${PRICE_VARIANTS['12'][kind]}">${PRICE_VARIANTS['9'][kind]}</span>`;
+
 export const escapeHtml = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /**
  * Copy strings are plain text with a few markers:
- *   **bold**   `code`   ==highlight==   [text](https://x) or [text](@slug)   {price} {contact} {LAST_VERIFIED} {date}
+ *   **bold**   `code`   ==highlight==   [text](https://x) or [text](@slug)   {price} {thb} {contact} {LAST_VERIFIED} {date}
  * {email} is filled in the browser (waitlist success) and is left untouched here. Other braces, like {id}, are literal.
  */
 export function renderInline(text: string, ctx: InlineContext): string {
@@ -31,7 +35,8 @@ export function renderInline(text: string, ctx: InlineContext): string {
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/==([^=]+)==/g, '<span class="hl nw">$1</span>');
   s = s
-    .replace(/\{price\}/g, escapeHtml(ctx.price))
+    .replace(/\{price\}/g, priceSpan('usd'))
+    .replace(/\{thb\}/g, priceSpan('thb'))
     .replace(/\{contact\}/g, ctx.contactHtml)
     .replace(/\{LAST_VERIFIED\}/g, escapeHtml(ctx.lastVerified))
     .replace(/\{date\}/g, escapeHtml(ctx.date));
@@ -39,13 +44,14 @@ export function renderInline(text: string, ctx: InlineContext): string {
 }
 
 /** The same string as plain text, for places that cannot hold HTML (JSON-LD, meta, form hints that need textContent). */
-export function plainText(text: string, ctx: Pick<InlineContext, 'price' | 'lastVerified' | 'date'> & { contactText: string }): string {
+export function plainText(text: string, ctx: Pick<InlineContext, 'lastVerified' | 'date'> & { contactText: string }): string {
   return text
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/==([^=]+)==/g, '$1')
     .replace(/`([^`]+)`/g, '$1')
-    .replace(/\{price\}/g, ctx.price)
+    .replace(/\{price\}/g, PRICE_VARIANTS['9'].usd)
+    .replace(/\{thb\}/g, PRICE_VARIANTS['9'].thb)
     .replace(/\{contact\}/g, ctx.contactText)
     .replace(/\{LAST_VERIFIED\}/g, ctx.lastVerified)
     .replace(/\{date\}/g, ctx.date);

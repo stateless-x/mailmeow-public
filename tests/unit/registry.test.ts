@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { FEATURES, PAGES, ENTITY } from '../../src/data/registry';
+import { FEATURES, PAGES } from '../../src/data/registry';
 import type { Feature, PageEntry } from '../../src/data/types';
 import { validateRegistry, findEmptyTranslations } from '../../src/lib/validate';
 import { LANDING, ABOUT, WHAT_IS } from '../../src/data/copy/landing';
@@ -53,7 +53,7 @@ describe('copy', () => {
     expect(json).not.toMatch(/Founder|ผู้ก่อตั้ง/);
   });
   test('titles and descriptions never carry the price', () => {
-    for (const p of PAGES) if (p.status === 'live') expect(JSON.stringify([p.title, p.description])).not.toContain(ENTITY.waitlist.price);
+    for (const p of PAGES) if (p.status === 'live') for (const price of ['$9', '$12', '฿299', '฿399']) expect(JSON.stringify([p.title, p.description])).not.toContain(price);
   });
 });
 

@@ -7,8 +7,10 @@ export interface WaitlistInput {
   promptpay?: string;
   consent: boolean;
   lang: 'th' | 'en';
-  /** The price variant shown to this visitor (ENTITY.waitlist.price at build time). */
-  price: string;
+  /** The price variant this visitor was shown: '9' or '12'. A native (no-JS) submit sends 'nojs'. */
+  price_variant: string;
+  /** Which link brought the visitor (lib/source.ts); the server re-checks it. */
+  source: string;
   turnstileToken?: string;
 }
 
@@ -38,7 +40,8 @@ export function readWaitlistForm(form: HTMLFormElement): WaitlistInput {
     promptpay: str('promptpay'),
     consent: d.get('consent') === 'on',
     lang: (str('lang') as 'th' | 'en') ?? 'en',
-    price: str('price') ?? '',
+    price_variant: str('price_variant') ?? '',
+    source: str('source') ?? 'direct',
     turnstileToken: str('cf-turnstile-response'),
   };
 }

@@ -62,7 +62,20 @@ const L = LANDING;
 
 <section class="section" id="pricing" aria-labelledby="pricing-h">
   <h2 id="pricing-h">{L.pricing.heading[lang]}</h2>
-  <p class="prose"><Rich text={L.pricing.body[lang]} lang={lang} /></p>
+  <p class="prose">{L.pricing.intro[lang]}</p>
+  <div class="card-grid plans">
+    {L.pricing.plans.map((plan) => (
+      <div class="card plan">
+        <h3>{plan.name[lang]}</h3>
+        <p class="plan-price"><Rich text={plan.price[lang]} lang={lang} /></p>
+        <ul>
+          {plan.lines.map((line) => <li>{line[lang]}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <p class="prose"><strong>{L.pricing.allPlans[lang]}</strong></p>
+  <p class="prose">{L.pricing.thbNote[lang]}</p>
 </section>
 
 <section class="section" aria-labelledby="faq-h">

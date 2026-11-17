@@ -17,6 +17,8 @@ import '../styles/global.css';
 import type { Lang, LivePage } from '../data/types';
 import { absoluteUrl, alternates, pagePath } from '../lib/seo';
 import { isProduction, currentContact } from '../lib/env';
+import { PAINT_SCRIPT } from '../lib/price-variant';
+import { SOURCE_SCRIPT } from '../lib/source';
 import SiteNav from '../components/SiteNav.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
@@ -63,5 +65,9 @@ const ld = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
       <slot />
     </main>
     <SiteFooter lang={lang} slug={page.slug} />
+    <!-- Per-visitor price test: runs before first paint where the browser allows. See lib/price-variant.ts. -->
+    <script is:inline set:html={PAINT_SCRIPT}></script>
+    <!-- Which link brought the visitor (?s=), kept like the price variant. See lib/source.ts. -->
+    <script is:inline set:html={SOURCE_SCRIPT}></script>
   </body>
 </html>

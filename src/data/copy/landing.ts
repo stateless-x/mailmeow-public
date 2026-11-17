@@ -9,7 +9,7 @@ export interface Faq {
 
 /** §9 "What is mailmeow": the same text on the landing and as the lead of /about. */
 export const WHAT_IS: Bi = {
-  th: 'mailmeow คือ email API ที่เรียกใช้แบบเดียวกับ Resend SDK Node.js ของ Resend เลยใช้ต่อได้ แค่ยืนยันโดเมนกับ mailmeow แล้วเปลี่ยน base URL กับ API key ส่งอีเมลผ่าน AWS SES ที่สิงคโปร์ และเช็กผ่าน API ได้ว่าแต่ละฉบับส่งแล้ว ถึงแล้ว เด้งกลับ หรือโดนกดรายงาน spam ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน และอยากเปิดให้คนไทยที่ทำแอปกับ AI ใช้ด้วย ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
+  th: 'mailmeow คือ email API ที่เรียกใช้แบบเดียวกับ Resend SDK Node.js ของ Resend เลยใช้ต่อได้ แค่ยืนยันโดเมนกับ mailmeow แล้วเปลี่ยน base URL กับ API key ส่งอีเมลผ่าน AWS SES ที่สิงคโปร์ และเช็กผ่าน API ได้ว่าแต่ละฉบับส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน และอยากเปิดให้คนไทยที่ทำแอปกับ AI ใช้ด้วย ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
   en: "mailmeow is an email API that you call the same way as Resend, so Resend's Node.js SDK keeps working. Verify your domain on mailmeow, then change the base URL and API key. It sends through AWS SES in Singapore, and the API tells you whether each email was sent, delivered, bounced or marked as spam. Pooh (Purin Buriwong) built it for his own apps first and wants to open it to Thai builders who make apps with AI. It is not open for signup yet; join the waitlist.",
 };
 
@@ -47,7 +47,7 @@ export const LANDING = {
         en: '**Test without fear.** Test keys never send to real people.',
       },
       {
-        th: '**รู้ว่าอีเมลไปถึงไหน** เช็กสถานะได้ทาง API หรือ webhook ว่าส่งแล้ว ถึงแล้ว เด้งกลับ หรือโดนกดรายงาน spam',
+        th: '**รู้ว่าอีเมลไปถึงไหน** เช็กสถานะได้ทาง API หรือ webhook ว่าส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม',
         en: '**Know where every email went.** Check through the API or a webhook: sent, delivered, bounced or marked as spam.',
       },
       {
@@ -103,9 +103,39 @@ export const LANDING = {
   },
   pricing: {
     heading: { th: 'ราคาที่วางไว้', en: 'Planned pricing' },
-    body: {
-      th: 'ฟรีเดือนละ 3,000 ฉบับ แผนเสียเงินเริ่มที่ {price} ต่อเดือน ตอนนี้ยังไม่เก็บเงิน และราคายังไม่สรุป เลยขอถามในฟอร์มด้วยว่าจ่ายไหวเท่าไร',
-      en: "3,000 emails a month free, paid plans from {price} a month. Nothing is on sale yet and prices aren't final, so the form asks what you'd pay.",
+    intro: {
+      th: 'ตอนนี้ยังไม่เก็บเงิน และราคายังไม่สรุป เลยขอถามในฟอร์มว่าจ่ายราคานี้ไหม',
+      en: "Nothing is on sale yet and prices aren't final, so the form asks whether you'd pay this.",
+    },
+    plans: [
+      {
+        name: { th: 'ฟรี', en: 'Free' },
+        price: { th: 'ฟรี ไม่ต้องใส่บัตร', en: 'Free, no card needed' },
+        lines: [
+          { th: 'ส่งได้เดือนละ 3,000 ฉบับ วันละไม่เกิน 100', en: '3,000 emails a month, up to 100 a day' },
+          { th: '1 โดเมน', en: '1 domain' },
+          { th: 'ดูประวัติอีเมลย้อนหลัง 7 วัน', en: '7 days of email history' },
+          { th: 'อีเมลทั่วไป เช่น รหัส OTP และใบเสร็จ', en: 'Everyday emails, like sign-in codes and receipts' },
+        ],
+      },
+      {
+        name: { th: 'Starter', en: 'Starter' },
+        price: { th: '{price} ต่อเดือน (ประมาณ {thb})', en: '{price} a month (about {thb})' },
+        lines: [
+          { th: 'ส่งได้เดือนละ 20,000 ฉบับ', en: '20,000 emails a month' },
+          { th: 'โดเมนไม่จำกัด', en: 'Unlimited domains' },
+          { th: 'ดูประวัติอีเมลย้อนหลัง 30 วัน', en: '30 days of email history' },
+          { th: 'ส่งแคมเปญได้ เช่น จดหมายข่าว', en: 'Campaigns, like newsletters' },
+        ],
+      },
+    ],
+    allPlans: {
+      th: 'ทุกแผนมีแอปและสมาชิกในทีมไม่จำกัด คิดตามจำนวนอีเมลที่ส่งอย่างเดียว',
+      en: 'Every plan includes unlimited apps and team members. You pay only for the emails you send.',
+    },
+    thbNote: {
+      th: 'ราคาบาทเป็นแค่ค่าประมาณ ตอนจ่ายจริงเป็น USD ผ่านบัตร',
+      en: 'Baht prices are approximate. You would pay in USD by card.',
     },
   },
   faqHeading: { th: 'คำถามที่พบบ่อย', en: 'Questions people ask' },
@@ -128,8 +158,8 @@ export const LANDING = {
     {
       q: { th: 'อีเมลจะเข้า spam ไหม', en: 'Will my emails go to spam?' },
       a: {
-        th: 'mailmeow ตั้ง DKIM SPF และ DMARC ให้ครบ และหยุดส่งไปยังอีเมลที่เด้งหรือโดนกดรายงาน spam ให้เอง ช่วยให้โดเมนน่าเชื่อถือขึ้น แต่ไม่มีบริการไหนรับประกันได้ว่าทุกฉบับจะเข้ากล่องจดหมาย',
-        en: 'mailmeow sets up DKIM, SPF and DMARC and stops sending to addresses that bounce or report spam. That helps keep your domain trusted, but no service can promise every email reaches the inbox.',
+        th: 'mailmeow เตรียมค่า DKIM SPF และ DMARC ให้ครบ แค่ก๊อปไปวางในที่ตั้งค่า DNS และหยุดส่งไปยังอีเมลที่ตีกลับหรือถูกแจ้งสแปมให้เอง ช่วยให้โดเมนน่าเชื่อถือขึ้น แต่ไม่มีบริการไหนรับประกันได้ว่าทุกฉบับจะเข้ากล่องจดหมาย',
+        en: 'mailmeow prepares your DKIM, SPF and DMARC values for you to paste into your DNS, and stops sending to addresses that bounce or report spam. That helps keep your domain trusted, but no service can promise every email reaches the inbox.',
       },
     },
     {

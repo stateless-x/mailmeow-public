@@ -57,7 +57,6 @@ export interface Entity {
   docsUrl: string;
   /** Public contact address. Unset until the owner picks one; a production build fails while unset. */
   contactEmail: string | undefined;
-  waitlist: { price: string };
   /** false until the docs site serves. */
   docsLive: boolean;
   /** Fills {LAST_VERIFIED} on /about. Update when the live/planned lists are re-checked. */

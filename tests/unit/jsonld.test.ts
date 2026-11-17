@@ -30,7 +30,7 @@ describe('JSON-LD', () => {
     for (const kind of ['landing', 'migrate', 'about'] as const) {
       const s = JSON.stringify(build(kind, 'th', [{ q: 'q', a: 'a' }]));
       expect(s).not.toMatch(/offers|founder|"price"|softwareVersion|aggregateRating/i);
-      expect(s).not.toContain(ENTITY.waitlist.price);
+      for (const price of ['$9', '$12', '฿299', '฿399']) expect(s).not.toContain(price);
     }
   });
   test('landing: WebSite and SoftwareApplication with live features only', () => {

@@ -109,6 +109,11 @@ h3 { font-size: var(--text-lg); font-weight: 500; }
 .card-grid { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
 .card, .form-card { background: var(--card); border: var(--edge-width) solid var(--edge); border-radius: calc(var(--radius) + var(--space-1)); box-shadow: var(--lip); padding: var(--card-pad); }
 
+/* Pricing plans (landing #pricing) */
+.plan h3 { margin: 0; }
+.plan-price { font-weight: 600; margin-block: var(--space-2) var(--space-3); }
+.plan ul { margin: 0; padding-left: 1.2em; display: grid; gap: var(--space-2); }
+
 /* Sticky note: one per page (the Resend teaser on the landing) */
 .note { max-width: 19rem; padding: var(--space-3) var(--space-4); background: var(--highlight); color: var(--highlight-foreground); border: var(--edge-width) solid var(--edge); border-radius: var(--space-1); box-shadow: var(--lip); transform: rotate(-1.5deg); font-weight: 500; }
 

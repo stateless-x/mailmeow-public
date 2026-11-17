@@ -32,13 +32,15 @@ export const PRIVACY = {
           'อีเมลของคุณ',
           'คำตอบ 5 ข้อในฟอร์ม คือ กำลังทำอะไร ใช้ AI ตัวไหน ส่งอีเมลเดือนละกี่ฉบับ จะจ่ายไหม และอยากจ่ายผ่าน PromptPay ไหม',
           'ราคาที่คุณเห็นในคำถาม',
+          'ลิงก์ที่พาคุณมาที่เว็บนี้ เช่น ลิงก์จากโพสต์หรือวิดีโอของเรา ถ้าเข้าเอง จะบันทึกว่าเข้าตรง',
           'เวลาที่ลงชื่อ',
           'IP ของคุณที่แปลงเป็นรหัสทางเดียว (hash) แล้ว ใช้แค่กันการลงชื่อซ้ำ ๆ จากที่เดียวกัน เราไม่เก็บ IP ตัวจริง',
         ],
         en: [
           'Your email',
-          'Your 5 answers: what you\'re building, which AI tool, emails per month, whether you\'d pay, and whether you need PromptPay',
+          "Your 5 answers: what you're building, which AI tool, emails per month, whether you'd pay, and whether you need PromptPay",
           'The price shown to you in the question',
+          'Which link brought you here, such as a link in one of our posts or videos (recorded as "direct" if you came on your own)',
           'When you signed up',
           "A one-way hash of your IP address, used only to limit repeated signups. We don't store the IP itself.",
         ],
@@ -113,8 +115,8 @@ export const PRIVACY = {
     {
       heading: { th: 'คุกกี้และสถิติผู้เข้าชม', en: 'Cookies and analytics' },
       body: {
-        th: 'เว็บนี้ไม่มีตัวติดตามโฆษณา สถิติผู้เข้าชมใช้ Cloudflare Web Analytics ที่นับการเข้าชมโดยไม่ใช้คุกกี้ คุกกี้ที่เราตั้งเองมีตัวเดียวคือ `mm_lang` ไว้จำว่าคุณเลือกภาษาไทยหรืออังกฤษ',
-        en: 'There are no ad trackers on this site. Visitor stats come from Cloudflare Web Analytics, which counts visits without cookies. The only cookie we set ourselves is `mm_lang`, which remembers whether you chose Thai or English.',
+        th: 'เว็บนี้ไม่มีตัวติดตามโฆษณา สถิติผู้เข้าชมใช้ Cloudflare Web Analytics ที่นับการเข้าชมโดยไม่ใช้คุกกี้ คุกกี้ที่เราตั้งเองมีตัวเดียวคือ `mm_lang` ไว้จำว่าคุณเลือกภาษาไทยหรืออังกฤษ และเว็บเก็บค่าสองอย่างไว้ในเบราว์เซอร์ของคุณ (localStorage) คือราคาที่แสดงให้คุณ ราคาที่เห็นจะได้ไม่เปลี่ยนไปมา และลิงก์ที่พาคุณมา ค่าเหล่านี้อยู่ในเครื่องคุณเท่านั้น จนกว่าคุณจะส่งฟอร์ม',
+        en: "There are no ad trackers on this site. Visitor stats come from Cloudflare Web Analytics, which counts visits without cookies. The only cookie we set ourselves is `mm_lang`, which remembers whether you chose Thai or English. The site also keeps two values in your browser (localStorage): which price we showed you, so it doesn't change between pages, and which link brought you here. They stay on your device unless you send the form.",
       },
     },
     {

@@ -7,7 +7,6 @@ export function inlineContext(lang: Lang): InlineContext {
   const c = currentContact();
   return {
     lang,
-    price: ENTITY.waitlist.price,
     contactHtml: c.email
       ? `<a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a>`
       : `<mark class="placeholder">${escapeHtml(c.text)}</mark>`,
@@ -21,5 +20,5 @@ export const rich = (text: string, lang: Lang): string => renderInline(text, inl
 /** Plain text with every placeholder resolved: for JSON-LD answers and other places that cannot hold HTML. */
 export function plain(text: string): string {
   const c = currentContact();
-  return plainText(text, { price: ENTITY.waitlist.price, contactText: c.text, lastVerified: ENTITY.lastVerified, date: ENTITY.privacyUpdated });
+  return plainText(text, { contactText: c.text, lastVerified: ENTITY.lastVerified, date: ENTITY.privacyUpdated });
 }

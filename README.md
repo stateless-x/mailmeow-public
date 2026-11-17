@@ -24,9 +24,25 @@ bunx wrangler pages dev dist                         # http://localhost:8788
 - Quick curl without a browser: `POST /api/waitlist` with JSON and `"turnstileToken":"XXXX.DUMMY.TOKEN.XXXX"` (accepted by the always-pass secret).
 - `wrangler.toml` holds a placeholder `database_id` and no account id. The owner replaces it after `wrangler d1 create mailmeow-waitlist`.
 
+## Price test ($9 vs $12)
+
+Each visitor gets one price at random on the first visit, kept in `localStorage` (`mm_price_variant`). The pricing section and the form's Q4 both read it. Server HTML always shows $9 and about ฿299; an inline script at the end of `<body>` (`src/lib/price-variant.ts`) swaps the text of every `[data-price]` span and sets the form's hidden `price_variant` field. If `localStorage` is blocked the visitor gets $9 (a random price could change on the next page). Prices stay out of titles, meta descriptions and JSON-LD. THB (฿299 / ฿399) is shown beside the dollar price as an approximation.
+
+## Signup source
+
+Share links as `https://mailmeow.dev/th/?s=fb1` (allowed: `fb1`, `fb2`, `x`, `threads`, `video`, `meetup`). The first visit with an allowed value is kept in `localStorage` (`mm_source`), sent with the form as `source`, and re-checked by the Function: anything else is stored as `direct`. A later visit never replaces a stored source. Code: `src/lib/source.ts`. The column is in `migrations/0001_waitlist.sql` (edited in place before the first deploy: if you already applied it to a local database, delete `.wrangler/state` and apply it again).
+
+## Before a production deploy
+
+```sh
+PUBLIC_ENV=production PUBLIC_TURNSTILE_SITE_KEY=<your real key> bun run preflight
+```
+
+Prints a plain numbered list of what is still missing and exits 1, or says it passed. Checks `ENTITY.contactEmail`, the Turnstile site key (not a Cloudflare test key), the placeholder `database_id` in `wrangler.toml`, `PUBLIC_ENV=production`, the production robots (allow all, `Disallow: /api/`, a Sitemap line), the migration file, and a production build into a temp folder. No network calls. Step-by-step: `~/dev/mailmeow/docs/DEPLOY-SITE.md`.
+
 ## Counting signups
 
-Local database: the commands below as written. Production: the same command without `--local`, run by the owner.
+Local database: the commands below as written. Production: the same command with `--remote` instead of `--local` (without either flag, wrangler reads the local database), run by the owner.
 
 ```sh
 # Total signups
@@ -35,8 +51,14 @@ bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT COUNT(*) AS
 # Percent who would pay (would_pay = 'yes')
 bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT ROUND(100.0 * SUM(would_pay = 'yes') / COUNT(*), 1) AS pct_would_pay, COUNT(*) AS total FROM waitlist_signups"
 
-# By price variant (with the would-pay rate for each)
-bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT price_variant, COUNT(*) AS signups, ROUND(100.0 * SUM(would_pay = 'yes') / COUNT(*), 1) AS pct_would_pay FROM waitlist_signups GROUP BY price_variant"
+# Price test: $9 vs $12 (the comparison leaves out 'nojs': those signups never saw a randomised price)
+bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT price_variant, COUNT(*) AS signups, SUM(would_pay = 'yes') AS would_pay, ROUND(100.0 * SUM(would_pay = 'yes') / COUNT(*), 1) AS pct_would_pay FROM waitlist_signups WHERE price_variant IN ('9', '12') GROUP BY price_variant"
+
+# Signups by variant including 'nojs' (to see how many skipped the test)
+bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT price_variant, COUNT(*) AS signups FROM waitlist_signups GROUP BY price_variant"
+
+# By source (the ?s= link that brought them: fb1, fb2, x, threads, video, meetup, or direct)
+bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT source, COUNT(*) AS signups, SUM(would_pay = 'yes') AS would_pay, ROUND(100.0 * SUM(would_pay = 'yes') / COUNT(*), 1) AS pct_would_pay FROM waitlist_signups GROUP BY source ORDER BY signups DESC"
 
 # By PromptPay answer
 bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT COALESCE(promptpay, '(skipped)') AS promptpay, COUNT(*) AS signups, SUM(would_pay = 'yes') AS would_pay FROM waitlist_signups GROUP BY promptpay"
@@ -47,7 +69,7 @@ bunx wrangler d1 execute mailmeow-waitlist --local --command "SELECT j.value AS 
 
 ## Deleting signups
 
-Nothing is deleted automatically. Local database: the commands as written. Production: the same command without `--local`, run by the owner.
+Nothing is deleted automatically. Local database: the commands as written. Production: the same command with `--remote` instead of `--local` (without either flag, wrangler reads the local database), run by the owner.
 
 ```sh
 # One person's deletion request (use the address they signed up with, lowercased)
@@ -62,4 +84,4 @@ bunx wrangler d1 execute mailmeow-waitlist --local --command "DELETE FROM waitli
 - Answers are stored as option keys (`own`, `claude-code`, `up-to-3000`, `yes`, ...), not labels.
 - The IP is stored only as `SHA-256(salt + IP)`. Rate limit: the 6th POST from one IP hash within an hour gets 429. Every attempt is counted. Hit rows older than an hour are deleted on each request.
 - A repeat email gets the same success response and the first row is kept.
-- `price_variant` comes from `ENTITY.waitlist.price` on the server, not from the browser.
+- `price_variant` is `9`, `12` or `nojs`; any other value is a 400. The browser sends the variant it painted (`9` or `12`); a submit without JavaScript carries `nojs`. The two arms are compared in the price-test query above.

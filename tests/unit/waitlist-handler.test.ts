@@ -29,7 +29,8 @@ const body = (over: Record<string, unknown> = {}) => ({
   promptpay: 'required',
   consent: true,
   lang: 'th',
-  price: '$9',
+  price_variant: '9',
+  source: 'fb1',
   turnstileToken: 'tok',
   ...over,
 });
@@ -55,7 +56,8 @@ describe('POST /api/waitlist', () => {
       volume: 'up-to-3000',
       would_pay: 'yes',
       promptpay: 'required',
-      price_variant: '$9',
+      price_variant: '9',
+      source: 'fb1',
       lang: 'th',
     });
     expect(row!.ip_hash).toBe(await hashIp(SALT, IP));
@@ -110,12 +112,31 @@ describe('POST /api/waitlist', () => {
 
   test('an unknown option key is 400', async () => {
     let n = 0; // a fresh IP each time, so the rate limit does not interfere
-    for (const bad of [{ building: 'Own app' }, { ai: ['cursor', 'vim'] }, { wouldPay: 'maybe' }, { volume: 'lots' }, { promptpay: 'x' }, { lang: 'fr' }, { ai: 'cursor' }]) {
+    for (const bad of [{ building: 'Own app' }, { ai: ['cursor', 'vim'] }, { wouldPay: 'maybe' }, { volume: 'lots' }, { promptpay: 'x' }, { lang: 'fr' }, { ai: 'cursor' }, { price_variant: '$9' }, { price_variant: '10' }, { price_variant: 9 }, { price_variant: '' }, { price_variant: undefined }]) {
       const res = await run(post(body(bad), { 'CF-Connecting-IP': `192.0.2.${++n}` }));
       expect(res.status).toBe(400);
       expect(((await res.json()) as { errors: string[] }).errors).toContain('invalid');
     }
     expect(rows()).toHaveLength(0);
+  });
+
+  test('price_variant is stored for 9, 12 and nojs only', async () => {
+    let n = 0;
+    for (const v of ['9', '12', 'nojs']) {
+      const res = await run(post(body({ email: `v${v}@x.io`, price_variant: v }), { 'CF-Connecting-IP': `192.0.2.${++n}` }));
+      expect(res.status).toBe(200);
+    }
+    expect(rows().map((r) => r.price_variant)).toEqual(['9', '12', 'nojs']);
+  });
+
+  test('source is stored when allow-listed; unknown, wrong-typed or missing becomes direct (never an error)', async () => {
+    let n = 0;
+    const cases: [unknown, string][] = [['meetup', 'meetup'], ['threads', 'threads'], ['evil', 'direct'], ['FB1', 'direct'], [5, 'direct'], [undefined, 'direct']];
+    for (const [sent, stored] of cases) {
+      const res = await run(post(body({ email: `s${n}@x.io`, source: sent }), { 'CF-Connecting-IP': `192.0.2.${++n}` }));
+      expect(res.status).toBe(200);
+    }
+    expect(rows().map((r) => r.source)).toEqual(cases.map(([, stored]) => stored));
   });
 
   test('missing required fields return the keys the form maps to copy', async () => {
@@ -125,7 +146,7 @@ describe('POST /api/waitlist', () => {
   });
 
   test('a form-encoded post redirects 303 to the thanks page in the right language', async () => {
-    const form = new URLSearchParams({ email: 'b@x.io', wouldPay: 'yes', consent: 'on', lang: 'en', 'cf-turnstile-response': 'tok' });
+    const form = new URLSearchParams({ email: 'b@x.io', wouldPay: 'yes', consent: 'on', lang: 'en', price_variant: 'nojs', 'cf-turnstile-response': 'tok' });
     form.append('ai', 'bolt');
     form.append('ai', 'lovable');
     const req = new Request('https://mailmeow.dev/api/waitlist', {
@@ -136,7 +157,7 @@ describe('POST /api/waitlist', () => {
     const res = await run(req);
     expect(res.status).toBe(303);
     expect(res.headers.get('Location')).toBe('/en/waitlist-thanks/');
-    expect(rows()[0]).toMatchObject({ email: 'b@x.io', ai_tools: '["bolt","lovable"]', lang: 'en' });
+    expect(rows()[0]).toMatchObject({ email: 'b@x.io', ai_tools: '["bolt","lovable"]', lang: 'en', price_variant: 'nojs' });
   });
 
   test('a failed form-encoded post redirects back to the form', async () => {
