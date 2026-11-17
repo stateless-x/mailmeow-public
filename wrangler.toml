@@ -1,0 +1,11 @@
+# Cloudflare Pages project config. Local use only until the owner creates the project.
+# No account_id here. Secrets (TURNSTILE_SECRET, IP_HASH_SALT) come from .dev.vars locally
+# and from the Pages dashboard in production; see README.md.
+name = "mailmeow-public"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mailmeow-waitlist"
+database_id = "00000000-0000-0000-0000-000000000000" # placeholder: replaced when the owner runs `wrangler d1 create`

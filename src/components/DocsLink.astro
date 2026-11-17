@@ -1,0 +1,14 @@
+---
+import { ENTITY } from '../data/registry';
+import { FOOTER } from '../data/copy/common';
+import type { Lang } from '../data/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+{
+  ENTITY.docsLive ? (
+    <a href={`${ENTITY.docsUrl}/${lang}/`}>{FOOTER.docs.label[lang]}</a>
+  ) : (
+    <span class="soon">{FOOTER.docs.label[lang]} {FOOTER.docs.soon[lang]}</span>
+  )
+}

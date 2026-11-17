@@ -1,0 +1,68 @@
+---
+import { MIGRATE as M } from '../../data/copy/migrate';
+import type { Lang } from '../../data/types';
+import Rich from '../Rich.astro';
+import FaqList from '../FaqList.astro';
+import WaitlistForm from '../WaitlistForm.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const steps = [M.steps.one, M.steps.two, M.steps.three];
+---
+<section class="section hero" aria-labelledby="m-h1">
+  <div class="hero-copy">
+    <h1 id="m-h1">{M.h1[lang]}</h1>
+    <p class="lede">{M.lead[lang]}</p>
+    <p class="cta-row"><a class="btn btn-primary btn-lg" href="#waitlist">{M.cta.button[lang]}</a></p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="m-who">
+  <h2 id="m-who">{M.audience.heading[lang]}</h2>
+  <p class="prose"><Rich text={M.audience.body[lang]} lang={lang} /></p>
+</section>
+
+<section class="section" aria-labelledby="m-steps">
+  <h2 id="m-steps">{M.steps.heading[lang]}</h2>
+  <ol class="steps">
+    {steps.map((s, i) => (
+      <li>
+        <span class="step-n" aria-hidden="true">{i + 1}</span>
+        <h3>{s.title[lang]}</h3>
+        <p><Rich text={s.body[lang]} lang={lang} /></p>
+        {i === 1 && (
+          <>
+            <pre class="code-block"><code>{M.steps.two.code}</code></pre>
+            <p><Rich text={M.steps.two.note[lang]} lang={lang} /></p>
+          </>
+        )}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="section" aria-labelledby="m-same">
+  <h2 id="m-same">{M.same.heading[lang]}</h2>
+  <ul class="plain-list">{M.same.items.map((i) => <li><Rich text={i[lang]} lang={lang} /></li>)}</ul>
+</section>
+
+<section class="section" aria-labelledby="m-unsup">
+  <h2 id="m-unsup">{M.unsupported.heading[lang]}</h2>
+  <p class="prose"><Rich text={M.unsupported.intro[lang]} lang={lang} /></p>
+  <ul class="plain-list">{M.unsupported.items.map((i) => <li><Rich text={i[lang]} lang={lang} /></li>)}</ul>
+</section>
+
+<section class="section" aria-labelledby="m-back">
+  <h2 id="m-back">{M.back.heading[lang]}</h2>
+  <p class="prose">{M.back.body[lang]}</p>
+</section>
+
+<section class="section" aria-labelledby="m-faq">
+  <h2 id="m-faq">{M.faqHeading[lang]}</h2>
+  <FaqList items={M.faq} lang={lang} />
+</section>
+
+<section class="section" id="waitlist" aria-labelledby="m-cta">
+  <h2 id="m-cta">{M.cta.heading[lang]}</h2>
+  <p class="prose">{M.cta.body[lang]}</p>
+  <WaitlistForm lang={lang} underButton={M.cta.underButton} />
+</section>

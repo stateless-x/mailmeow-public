@@ -1,0 +1,20 @@
+---
+import { livePages, pagePath } from '../lib/seo';
+import { NAV_CTA } from '../data/copy/common';
+import type { Lang } from '../data/types';
+import LangToggle from './LangToggle.astro';
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const links = livePages().filter((p) => p.nav?.header);
+---
+<header class="site-nav">
+  <a class="wordmark" href={pagePath(lang, '')}>
+    <svg class="mark" viewBox="0 0 24 12" aria-hidden="true"><path d="M4 6h12" stroke="currentColor" stroke-width="1.5"/><circle cx="3.5" cy="6" r="2" fill="currentColor"/><circle cx="11" cy="6" r="2" fill="currentColor"/><circle cx="19.5" cy="6" r="4.5" fill="currentColor"/></svg>
+    <span>mailmeow</span>
+  </a>
+  <nav class="links" aria-label="Site">
+    {links.map((p) => <a href={pagePath(lang, p.slug)} aria-current={p.slug === slug ? 'page' : undefined}>{p.nav!.label[lang]}</a>)}
+  </nav>
+  <LangToggle lang={lang} slug={slug} />
+  <a class="btn btn-primary" href="#waitlist">{NAV_CTA[lang]}</a>
+</header>

@@ -1,0 +1,175 @@
+---
+import { FORM } from '../data/copy/common';
+import type { Option } from '../data/copy/common';
+import { ENTITY } from '../data/registry';
+import { isProduction, resolveTurnstileSiteKey } from '../lib/env';
+import { plain, rich } from '../lib/context';
+import type { Bi, Lang } from '../data/types';
+import Rich from './Rich.astro';
+
+interface Props { lang: Lang; underButton?: Bi }
+const { lang, underButton } = Astro.props;
+
+const siteKey = resolveTurnstileSiteKey(import.meta.env.PUBLIC_TURNSTILE_SITE_KEY, isProduction(import.meta.env));
+
+const t = (b: Bi) => rich(b[lang], lang);
+const i18n = {
+  success: FORM.success[lang],
+  errors: {
+    email: FORM.errors.email[lang],
+    wouldPay: FORM.errors.q4[lang],
+    consent: FORM.errors.consent[lang],
+    network: plain(FORM.errors.network[lang]),
+  },
+};
+
+// Radio and checkbox groups share one markup.
+const groups: { name: string; type: 'radio' | 'checkbox'; label: string; hint?: string; options: Option[]; required?: boolean; error?: string }[] = [
+  { name: 'building', type: 'radio', label: t(FORM.q1.label), options: FORM.q1.options },
+  { name: 'ai', type: 'checkbox', label: t(FORM.q2.label), options: FORM.q2.options },
+  { name: 'volume', type: 'radio', label: t(FORM.q3.label), hint: t(FORM.q3.hint), options: FORM.q3.options },
+  { name: 'wouldPay', type: 'radio', label: t(FORM.q4.label), hint: t(FORM.q4.hint), options: FORM.q4.options, required: true, error: 'wouldPay' },
+  { name: 'promptpay', type: 'radio', label: t(FORM.q5.label), options: FORM.q5.options },
+];
+---
+<div class="form-card">
+  <h3 class="form-heading">{FORM.heading[lang]}</h3>
+  <noscript><p class="hint">{FORM.noscript[lang]}</p></noscript>
+  <form method="post" action="/api/waitlist" data-waitlist data-i18n={JSON.stringify(i18n)} data-turnstile-key={siteKey ?? undefined}>
+    <input type="hidden" name="lang" value={lang} />
+    <input type="hidden" name="price" value={ENTITY.waitlist.price} />
+
+    <div class="field">
+      <label for="wl-email">{FORM.email.label[lang]}</label>
+      <input id="wl-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder={FORM.email.hint[lang]} aria-describedby="wl-err-email" />
+      <p class="error" id="wl-err-email" data-error="email" hidden></p>
+    </div>
+
+    {groups.map((g) => (
+      <fieldset class="field" aria-describedby={g.error ? `wl-err-${g.error}` : undefined}>
+        <legend><Fragment set:html={g.label} /></legend>
+        {g.hint && <p class="hint"><Fragment set:html={g.hint} /></p>}
+        <div class="options">
+          {g.options.map((o, i) => (
+            <label class="chip">
+              <input type={g.type} name={g.name} value={o.value} required={g.required && i === 0 ? true : undefined} />
+              <span>{o.label[lang]}</span>
+            </label>
+          ))}
+        </div>
+        {g.error && <p class="error" id={`wl-err-${g.error}`} data-error={g.error} hidden></p>}
+      </fieldset>
+    ))}
+
+    <div class="field consent">
+      <label class="option">
+        <input type="checkbox" name="consent" required aria-describedby="wl-err-consent" />
+        <span><Rich text={FORM.consent[lang]} lang={lang} /></span>
+      </label>
+      <p class="error" id="wl-err-consent" data-error="consent" hidden></p>
+    </div>
+
+    <!-- Turnstile loads on the form's first focus (script below), so it costs nothing at first paint.
+         The widget adds a hidden input named cf-turnstile-response, which readWaitlistForm() sends. -->
+    <div data-turnstile-slot>{siteKey === null && <p class="hint">[Turnstile site key not set: preview build]</p>}</div>
+
+    <p class="error" data-error="network" role="alert" hidden></p>
+    <button class="btn btn-primary btn-lg" type="submit">{FORM.button[lang]}</button>
+    {underButton && <p class="under-cta">{underButton[lang]}</p>}
+  </form>
+  <p class="success" data-success role="status" tabindex="-1" hidden></p>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      turnstile?: { render(el: HTMLElement, opts: { sitekey: string }): string; reset(id: string): void };
+    }
+  }
+  import { readWaitlistForm, validateWaitlist, type WaitlistErrorKey } from '../lib/waitlist';
+
+  const form = document.querySelector<HTMLFormElement>('form[data-waitlist]');
+  if (form) {
+    const i18n = JSON.parse(form.dataset.i18n ?? '{}');
+    form.noValidate = true; // without JS the browser's own required checks still apply
+    const success = form.parentElement!.querySelector<HTMLElement>('[data-success]')!;
+    const slot = (k: string) => form.querySelector<HTMLElement>(`[data-error="${k}"]`)!;
+    const show = (k: string, msg: string) => {
+      const el = slot(k);
+      el.textContent = msg;
+      el.hidden = false;
+    };
+    const clear = () => form.querySelectorAll<HTMLElement>('[data-error]').forEach((el) => (el.hidden = true));
+
+    // Turnstile: load the script once, on first focus or pointer contact with the form.
+    const siteKey = form.dataset.turnstileKey;
+    const tsSlot = form.querySelector<HTMLElement>('[data-turnstile-slot]')!;
+    let widgetId: string | undefined;
+    let tsLoading = false;
+    const loadTurnstile = () => {
+      if (!siteKey || tsLoading) return;
+      tsLoading = true;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = () => {
+        widgetId = window.turnstile?.render(tsSlot, { sitekey: siteKey });
+      };
+      s.onerror = () => {
+        tsLoading = false; // allow a retry on the next interaction; the submit shows the network error meanwhile
+        console.error('Turnstile script failed to load');
+      };
+      document.head.append(s);
+    };
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    form.addEventListener('pointerdown', loadTurnstile, { once: true });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clear();
+      const input = readWaitlistForm(form);
+      const errors: WaitlistErrorKey[] = validateWaitlist(input);
+      if (errors.length) {
+        errors.forEach((k) => show(k, i18n.errors[k]));
+        form.querySelector<HTMLElement>(`[data-error="${errors[0]}"]`)?.closest('.field')?.querySelector<HTMLElement>('input')?.focus();
+        return;
+      }
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      if (!input.turnstileToken) {
+        // The challenge has not finished (or could not load). A token is required, so ask for another try.
+        loadTurnstile();
+        show('network', i18n.errors.network);
+        return;
+      }
+      button.disabled = true;
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(input),
+        });
+        if (res.status === 400) {
+          // Field errors the server found: show the ones the form has copy for, otherwise the generic error.
+          const { errors = [] } = (await res.json().catch(() => ({}))) as { errors?: string[] };
+          const known = errors.filter((k): k is WaitlistErrorKey => k in i18n.errors && k !== 'network');
+          known.forEach((k) => show(k, i18n.errors[k]));
+          if (!known.length) show('network', i18n.errors.network);
+          if (widgetId) window.turnstile?.reset(widgetId);
+          button.disabled = false;
+          return;
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        success.textContent = (i18n.success as string).replace('{email}', input.email);
+        form.hidden = true;
+        success.hidden = false;
+        success.focus();
+      } catch (err) {
+        console.error(err);
+        // Shown to the visitor as the network/server error from the copy; nothing is swallowed silently.
+        show('network', i18n.errors.network);
+        if (widgetId) window.turnstile?.reset(widgetId);
+        button.disabled = false;
+      }
+    });
+  }
+</script>

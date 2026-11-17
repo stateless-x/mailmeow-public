@@ -1,0 +1,39 @@
+---
+import type { Lang, LivePage } from '../data/types';
+import { ENTITY, FEATURES } from '../data/registry';
+import { LANDING } from '../data/copy/landing';
+import { MIGRATE } from '../data/copy/migrate';
+import { PAGES } from '../data/registry';
+import { buildJsonLd, type FaqItem } from '../lib/jsonld';
+import { plain } from '../lib/context';
+import Base from '../layouts/Base.astro';
+import Landing from './sections/Landing.astro';
+import Migrate from './sections/Migrate.astro';
+import About from './sections/About.astro';
+import Privacy from './sections/Privacy.astro';
+import Thanks from './sections/Thanks.astro';
+
+interface Props { lang: Lang; page: LivePage }
+const { lang, page } = Astro.props;
+
+// The same arrays feed the visible FAQ and the FAQPage JSON-LD.
+const faqSource = page.kind === 'landing' ? LANDING.faq : page.kind === 'migrate' ? MIGRATE.faq : [];
+const faq: FaqItem[] = faqSource.map((f) => ({ q: plain(f.q[lang]), a: plain(f.a[lang]) }));
+const landing = PAGES.find((p): p is LivePage => p.status === 'live' && p.kind === 'landing')!;
+
+const jsonLd = buildJsonLd({
+  entity: ENTITY,
+  features: FEATURES,
+  page,
+  lang,
+  faq,
+  orgDescription: landing.description[lang],
+});
+---
+<Base lang={lang} page={page} jsonLd={jsonLd}>
+  {page.kind === 'landing' && <Landing lang={lang} />}
+  {page.kind === 'migrate' && <Migrate lang={lang} />}
+  {page.kind === 'about' && <About lang={lang} />}
+  {page.kind === 'privacy' && <Privacy lang={lang} />}
+  {page.kind === 'thanks' && <Thanks lang={lang} />}
+</Base>

@@ -1,0 +1,15 @@
+---
+import type { Faq } from '../data/copy/landing';
+import type { Lang } from '../data/types';
+import Rich from './Rich.astro';
+interface Props { items: Faq[]; lang: Lang }
+const { items, lang } = Astro.props;
+---
+<div class="faq">
+  {items.map((f) => (
+    <details>
+      <summary>{f.q[lang]}</summary>
+      <p><Rich text={f.a[lang]} lang={lang} /></p>
+    </details>
+  ))}
+</div>

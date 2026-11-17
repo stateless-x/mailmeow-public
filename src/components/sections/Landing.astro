@@ -1,0 +1,81 @@
+---
+import { LANDING, WHAT_IS } from '../../data/copy/landing';
+import { pagePath } from '../../lib/seo';
+import type { Lang } from '../../data/types';
+import Rich from '../Rich.astro';
+import FaqList from '../FaqList.astro';
+import WaitlistForm from '../WaitlistForm.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = LANDING;
+---
+<section class="hero section" aria-labelledby="hero-h">
+  <div class="hero-copy">
+    <p class="eyebrow">{L.hero.eyebrow[lang]}</p>
+    <h1 id="hero-h"><Rich text={L.hero.h1[lang]} lang={lang} /></h1>
+    <p class="lede">{L.hero.sub[lang]}</p>
+    <p class="cta-row"><a class="btn btn-primary btn-lg" href="#waitlist">{L.hero.cta[lang]}</a></p>
+    <p class="under-cta">{L.hero.underCta[lang]}</p>
+  </div>
+  <!-- Mascot slot (DESIGN.md): the chosen pixel portrait, whole-number scale, hero only. -->
+  <img class="mascot" src="/mailmeow-portrait@8x.png" alt="" width="192" height="192" />
+</section>
+
+<section class="section" aria-labelledby="problem-h">
+  <h2 id="problem-h">{L.problem.heading[lang]}</h2>
+  <p class="prose">{L.problem.body[lang]}</p>
+  <p class="prose">{L.problem.turn[lang]}</p>
+</section>
+
+<section class="section" aria-labelledby="ai-h">
+  <h2 id="ai-h">{L.aiCoding.heading[lang]}</h2>
+  <ul class="card-grid">
+    {L.aiCoding.items.map((item) => <li class="card"><Rich text={item[lang]} lang={lang} /></li>)}
+  </ul>
+</section>
+
+<section class="section" aria-labelledby="steps-h">
+  <h2 id="steps-h">{L.steps.heading[lang]}</h2>
+  <ol class="steps">
+    {L.steps.items.map((s, i) => (
+      <li>
+        <span class="step-n" aria-hidden="true">{i + 1}</span>
+        <h3>{s.title[lang]}</h3>
+        <p>{s.body[lang]}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="section" aria-labelledby="biz-h">
+  <h2 id="biz-h">{L.business.heading[lang]}</h2>
+  <ul class="plain-list">
+    {L.business.items.map((item) => <li><Rich text={item[lang]} lang={lang} /></li>)}
+  </ul>
+</section>
+
+<section class="section" aria-labelledby="resend-h">
+  <h2 id="resend-h">{L.resend.heading[lang]}</h2>
+  <p class="note">{L.resend.body[lang]}</p>
+  <p class="cta-row"><a class="btn btn-lg" href={pagePath(lang, 'migrate-from-resend')}>{L.resend.link[lang]}</a></p>
+</section>
+
+<section class="section" id="pricing" aria-labelledby="pricing-h">
+  <h2 id="pricing-h">{L.pricing.heading[lang]}</h2>
+  <p class="prose"><Rich text={L.pricing.body[lang]} lang={lang} /></p>
+</section>
+
+<section class="section" aria-labelledby="faq-h">
+  <h2 id="faq-h">{L.faqHeading[lang]}</h2>
+  <FaqList items={L.faq} lang={lang} />
+</section>
+
+<section class="section" aria-labelledby="what-h">
+  <h2 id="what-h">{L.whatIsHeading[lang]}</h2>
+  <p class="prose what-is">{WHAT_IS[lang]}</p>
+</section>
+
+<section class="section" id="waitlist" aria-labelledby="final-h">
+  <h2 id="final-h">{L.finalCta.heading[lang]}</h2>
+  <WaitlistForm lang={lang} />
+</section>

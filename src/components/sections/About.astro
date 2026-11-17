@@ -1,0 +1,34 @@
+---
+import { ABOUT as A, WHAT_IS } from '../../data/copy/landing';
+import { FEATURES, PAGES } from '../../data/registry';
+import { pagePath } from '../../lib/seo';
+import { rich } from '../../lib/context';
+import type { Lang } from '../../data/types';
+import Rich from '../Rich.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const live = FEATURES.filter((f) => f.status === 'live');
+const planned = FEATURES.filter((f) => f.status === 'planned');
+// Only the byline carries rel="author" (copy/landing.md §12); the footer link stays plain.
+const byline = rich(A.byline[lang], lang).replace('<a href="https://pooh.fyi"', '<a rel="author" href="https://pooh.fyi"');
+const linkable = (slug?: string) => slug !== undefined && PAGES.some((p) => p.slug === slug && p.status === 'live');
+---
+<section class="section prose-page" aria-labelledby="a-h1">
+  <h1 id="a-h1" class="page-title">{A.h1[lang]}</h1>
+  <p class="prose">{WHAT_IS[lang]}</p>
+
+  <h2>{A.whoHeading[lang]}</h2>
+  <p class="prose byline" set:html={byline} />
+
+  <h2>{A.worksHeading[lang]}</h2>
+  <ul class="plain-list">
+    {live.map((f) => (
+      <li>{linkable(f.linksTo) ? <a href={pagePath(lang, f.linksTo!)}>{f.label[lang]}</a> : f.label[lang]}</li>
+    ))}
+  </ul>
+
+  <h2>{A.plannedHeading[lang]}</h2>
+  <ul class="plain-list">{planned.map((f) => <li>{f.label[lang]}</li>)}</ul>
+
+  <p class="prose muted"><Rich text={A.note[lang]} lang={lang} /></p>
+</section>

@@ -1,0 +1,19 @@
+---
+import { livePages, pagePath } from '../lib/seo';
+import { FOOTER } from '../data/copy/common';
+import type { Lang } from '../data/types';
+import Rich from './Rich.astro';
+import DocsLink from './DocsLink.astro';
+import LangToggle from './LangToggle.astro';
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const links = livePages().filter((p) => p.nav);
+---
+<footer class="site-footer">
+  <p class="maker"><Rich text={FOOTER.maker[lang]} lang={lang} /></p>
+  <ul class="footer-links">
+    {links.map((p) => <li><a href={pagePath(lang, p.slug)}>{p.nav!.label[lang]}</a></li>)}
+    <li><DocsLink lang={lang} /></li>
+  </ul>
+  <LangToggle lang={lang} slug={slug} />
+</footer>

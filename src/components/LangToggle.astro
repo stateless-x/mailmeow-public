@@ -1,0 +1,25 @@
+---
+import { pagePath } from '../lib/seo';
+import { FOOTER } from '../data/copy/common';
+import { LANGS, type Lang } from '../data/types';
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+---
+<ul class="lang-toggle">
+  {LANGS.map((l) => (
+    <li>
+      <a href={pagePath(l, slug)} hreflang={l} lang={l} data-set-lang={l} aria-current={l === lang ? 'true' : undefined}>{FOOTER.langNames[l]}</a>
+    </li>
+  ))}
+</ul>
+<script>
+  // SITE.md rule 4: the choice wins. Cookie is shared with docs and the app on .mailmeow.dev.
+  // Browsers reject a cookie for a domain the page is not on (localhost, *.pages.dev previews), so there it stays host-only.
+  document.querySelectorAll<HTMLAnchorElement>('a[data-set-lang]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const onSite = location.hostname === 'mailmeow.dev' || location.hostname.endsWith('.mailmeow.dev');
+      const domain = onSite ? '; Domain=.mailmeow.dev' : '';
+      document.cookie = `mm_lang=${a.dataset.setLang}${domain}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    });
+  });
+</script>

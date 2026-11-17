@@ -1,0 +1,7 @@
+---
+import type { Lang } from '../data/types';
+import { rich } from '../lib/context';
+interface Props { text: string; lang: Lang }
+const { text, lang } = Astro.props;
+---
+<Fragment set:html={rich(text, lang)} />

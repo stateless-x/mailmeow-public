@@ -1,0 +1,15 @@
+---
+// Static fallback for "/". On Cloudflare the Pages Function in functions/index.ts answers first
+// with a 302; this page only exists so `astro dev` and plain static hosting have a root.
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>mailmeow</title>
+    <link rel="canonical" href="https://mailmeow.dev/en/" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+  </head>
+  <body></body>
+</html>

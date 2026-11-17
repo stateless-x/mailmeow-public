@@ -1,0 +1,20 @@
+---
+import { PRIVACY as P } from '../../data/copy/privacy';
+import type { Lang } from '../../data/types';
+import Rich from '../Rich.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section class="section prose-page" aria-labelledby="p-h1">
+  <h1 id="p-h1" class="page-title">{P.h1[lang]}</h1>
+  <p class="prose">{P.intro[lang]}</p>
+  {P.sections.map((s) => (
+    <>
+      <h2>{s.heading[lang]}</h2>
+      {s.body && <p class="prose"><Rich text={s.body[lang]} lang={lang} /></p>}
+      {s.list && <ul class="plain-list">{s.list[lang].map((i) => <li><Rich text={i} lang={lang} /></li>)}</ul>}
+      {s.extra?.map((e) => <p class="prose"><Rich text={e[lang]} lang={lang} /></p>)}
+    </>
+  ))}
+  <p class="prose muted"><Rich text={P.updated[lang]} lang={lang} /></p>
+</section>

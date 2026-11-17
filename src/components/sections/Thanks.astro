@@ -1,0 +1,10 @@
+---
+import { THANKS } from '../../data/copy/common';
+import type { Lang } from '../../data/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section class="section prose-page" aria-labelledby="t-h1">
+  <h1 id="t-h1" class="page-title">{THANKS.h1[lang]}</h1>
+  <p class="prose">{THANKS.body[lang]}</p>
+</section>

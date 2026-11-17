@@ -1,0 +1,6 @@
+# Copy to .dev.vars (gitignored). Values below are Cloudflare's published Turnstile TEST secrets.
+# Always passes:
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+# Always fails (manual check of the refusal path): 2x0000000000000000000000000000000AA
+# Any random string works locally; use a long random one in production.
+IP_HASH_SALT=local-dev-salt-change-me

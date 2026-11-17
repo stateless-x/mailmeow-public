@@ -1,0 +1,10 @@
+---
+import { livePages } from '../../lib/seo';
+import PageView from '../../components/PageView.astro';
+
+export function getStaticPaths() {
+  return livePages().map((page) => ({ params: { slug: page.slug || undefined }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<PageView lang="en" page={page} />
