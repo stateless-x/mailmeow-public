@@ -1,6 +1,5 @@
 ---
 import { LANDING, WHAT_IS } from '../../data/copy/landing';
-import { pagePath } from '../../lib/seo';
 import type { Lang } from '../../data/types';
 import Rich from '../Rich.astro';
 import FaqList from '../FaqList.astro';
@@ -52,12 +51,6 @@ const L = LANDING;
   <ul class="plain-list">
     {L.business.items.map((item) => <li><Rich text={item[lang]} lang={lang} /></li>)}
   </ul>
-</section>
-
-<section class="section" aria-labelledby="resend-h">
-  <h2 id="resend-h">{L.resend.heading[lang]}</h2>
-  <p class="note">{L.resend.body[lang]}</p>
-  <p class="cta-row"><a class="btn btn-lg" href={pagePath(lang, 'migrate-from-resend')}>{L.resend.link[lang]}</a></p>
 </section>
 
 <section class="section" id="pricing" aria-labelledby="pricing-h">

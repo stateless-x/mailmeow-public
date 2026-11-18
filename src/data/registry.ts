@@ -28,12 +28,12 @@ export const PAGES: PageEntry[] = [
     kind: 'landing',
     indexable: true,
     title: {
-      th: 'Email API ใช้ SDK ของ Resend ได้ ส่งอีเมล OTP จากแอป | mailmeow',
-      en: "Email API that works with Resend's SDK | mailmeow",
+      th: 'Email API ส่งอีเมล OTP จากแอป | mailmeow',
+      en: "Email API for sending email from your app | mailmeow",
     },
     description: {
-      th: 'mailmeow คือ email API ที่ใช้ SDK Node.js ของ Resend ได้ ส่งอีเมล OTP จากแอปผ่าน AWS SES ตอนนี้เปิดให้ลงชื่อรอใช้',
-      en: "mailmeow is an email API that works with Resend's Node SDK. Send OTP and app emails through AWS SES. Join the waitlist.",
+      th: 'mailmeow คือ email API ส่งรหัส OTP และอีเมลจากแอปผ่าน AWS SES ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอใช้',
+      en: "mailmeow is an email API for login codes and app emails, sent through AWS SES in Singapore. Join the waitlist.",
     },
   },
   {
@@ -49,7 +49,7 @@ export const PAGES: PageEntry[] = [
       th: 'ย้ายแอปจาก Resend มา mailmeow ยืนยันโดเมน แล้วเปลี่ยน base URL กับ API key SDK Node.js ของ Resend ใช้ต่อได้ ลงชื่อรอใช้',
       en: "Move an app from Resend to mailmeow: verify your domain, then change the base URL and API key. Resend's Node.js SDK keeps working. Join the waitlist.",
     },
-    nav: { label: { th: 'ย้ายจาก Resend', en: 'Switch from Resend' }, header: true },
+    nav: { label: { th: 'ย้ายจาก Resend', en: 'Switch from Resend' }, header: false },
   },
   {
     slug: 'about',
@@ -61,8 +61,8 @@ export const PAGES: PageEntry[] = [
       en: 'What is mailmeow? An email API by Pooh | mailmeow',
     },
     description: {
-      th: 'mailmeow คือ email API ที่ใช้ SDK Node.js ของ Resend ได้ ทำโดย Pooh (ภูรินท์ บุรีวงศ์) ตอนนี้ทำอะไรได้บ้าง และอะไรที่ยังไม่เสร็จ',
-      en: "mailmeow is an email API that works with Resend's Node SDK, made by Pooh (Purin Buriwong). What works today and what's still coming.",
+      th: 'mailmeow คือ email API สำหรับส่งอีเมลจากแอป ทำโดย Pooh (ภูรินท์ บุรีวงศ์) ตอนนี้ทำอะไรได้บ้าง และอะไรที่ยังไม่เสร็จ',
+      en: "mailmeow is an email API for sending email from your app, made by Pooh (Purin Buriwong). What works today and what's still coming.",
     },
     nav: { label: { th: 'เกี่ยวกับ mailmeow', en: 'About' }, header: true },
   },
@@ -115,15 +115,16 @@ export const FEATURES: Feature[] = [
   {
     id: 'emails-api',
     status: 'live',
-    label: { th: 'ส่งอีเมล ดูรายการ และดูทีละฉบับ แบบเดียวกับ Resend', en: 'Send, list and fetch emails the same way as Resend' },
+    label: { th: 'ส่งอีเมล ดูรายการ และดูทีละฉบับผ่าน API', en: 'Send, list and fetch emails through the API' },
     proof: 'docs/user/api-reference.md',
-    linksTo: 'migrate-from-resend',
   },
   {
     id: 'node-sdk',
     status: 'live',
     label: { th: 'SDK Node.js ของ Resend ใช้ได้โดยไม่ต้องแก้ ทดสอบแล้ว', en: "Resend's Node.js SDK works unchanged, tested" },
     proof: 'mailmeow-node/test/contract',
+    linksTo: 'migrate-from-resend',
+    inJsonLd: false,
   },
   {
     id: 'test-keys',

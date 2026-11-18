@@ -9,13 +9,13 @@ export interface Faq {
 
 /** §9 "What is mailmeow": the same text on the landing and as the lead of /about. */
 export const WHAT_IS: Bi = {
-  th: 'mailmeow คือ email API ที่เรียกใช้แบบเดียวกับ Resend SDK Node.js ของ Resend เลยใช้ต่อได้ แค่ยืนยันโดเมนกับ mailmeow แล้วเปลี่ยน base URL กับ API key ส่งอีเมลผ่าน AWS SES ที่สิงคโปร์ และเช็กผ่าน API ได้ว่าแต่ละฉบับส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน และอยากเปิดให้คนไทยที่ทำแอปกับ AI ใช้ด้วย ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
-  en: "mailmeow is an email API that you call the same way as Resend, so Resend's Node.js SDK keeps working. Verify your domain on mailmeow, then change the base URL and API key. It sends through AWS SES in Singapore, and the API tells you whether each email was sent, delivered, bounced or marked as spam. Pooh (Purin Buriwong) built it for his own apps first and wants to open it to Thai builders who make apps with AI. It is not open for signup yet; join the waitlist.",
+  th: 'mailmeow คือ email API สำหรับส่งอีเมลจากแอป เช่น รหัส OTP และอีเมลยืนยัน ส่งผ่าน AWS SES ที่สิงคโปร์ และเช็กผ่าน API ได้ว่าแต่ละฉบับส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน และอยากเปิดให้คนไทยที่ทำแอปกับ AI ใช้ด้วย ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
+  en: "mailmeow is an email API for sending email from your app, such as login codes and confirmation emails. It sends through AWS SES in Singapore, and the API tells you whether each email was sent, delivered, bounced or marked as spam. Pooh (Purin Buriwong) built it for his own apps first and wants to open it to Thai builders who make apps with AI. It is not open for signup yet; join the waitlist.",
 };
 
 export const LANDING = {
   hero: {
-    eyebrow: { th: 'Email API ที่ใช้ SDK Node.js ของ Resend ได้', en: "Email API that works with Resend's Node.js SDK" },
+    eyebrow: { th: 'Email API สำหรับแอปที่ทำกับ AI', en: "Email API for apps built with AI" },
     h1: { th: 'ส่งอีเมลจากแอปได้จริง ==ไม่ต้องเก่ง DNS==', en: 'Email from your app, ==without the DNS headache.==' },
     sub: {
       th: 'ลองด้วย API key ทดสอบได้ ไม่มีอีเมลหลุดไปถึงคนจริง ส่งผ่าน AWS ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอก่อน',
@@ -93,14 +93,6 @@ export const LANDING = {
       },
     ] as Bi[],
   },
-  resend: {
-    heading: { th: 'ย้ายจาก Resend ได้ โค้ดเดิมแทบไม่ต้องแก้', en: 'Switching from Resend' },
-    body: {
-      th: 'ยืนยันโดเมนกับ mailmeow แล้วเปลี่ยนค่าใน .env 2 ตัว SDK Node.js ของ Resend ใช้ต่อได้เลย อยากกลับก็แค่เปลี่ยนค่ากลับ',
-      en: "Verify your domain on mailmeow, then change two env vars. Resend's Node SDK keeps working. Want to go back? Change them back.",
-    },
-    link: { th: 'ดูวิธีย้าย', en: 'See how to switch' },
-  },
   pricing: {
     heading: { th: 'ราคาที่วางไว้', en: 'Planned pricing' },
     intro: {
@@ -142,13 +134,6 @@ export const LANDING = {
   whatIsHeading: { th: 'mailmeow คืออะไร', en: 'What is mailmeow' },
   faq: [
     {
-      q: { th: 'ใช้ SDK ของ Resend กับ mailmeow ได้ไหม', en: "Does Resend's SDK work with mailmeow?" },
-      a: {
-        th: 'ได้ SDK Node.js ของ Resend ใช้กับ mailmeow ได้โดยไม่ต้องแก้โค้ด หลังยืนยันโดเมนแล้วเปลี่ยนแค่ base URL กับ API key บางอย่าง เช่น ไฟล์แนบ และการตั้งเวลาส่ง ยังไม่รองรับ',
-        en: "Yes. Resend's Node.js SDK works with mailmeow without code changes: verify your domain, then change the base URL and API key. A few things, like attachments and scheduled sends, aren't supported yet.",
-      },
-    },
-    {
       q: { th: 'ไม่รู้เรื่อง DNS เลย ทำได้ไหม', en: "I don't know DNS. Can I still do this?" },
       a: {
         th: 'ได้ mailmeow เตรียมค่า DKIM SPF และ DMARC ของโดเมนให้ แค่ก๊อปไปวางในที่ตั้งค่า DNS ส่วนหน้าที่บอกทีละขั้นและเช็กให้ว่าครบหรือยัง กำลังทำอยู่',
@@ -179,8 +164,8 @@ export const LANDING = {
     {
       q: { th: 'ใช้กับภาษาอะไรได้บ้าง', en: 'Which languages work?' },
       a: {
-        th: 'ภาษาไหนที่ส่ง HTTP ได้ก็ใช้ได้ ถ้าเขียน Node.js ใช้ SDK ของ Resend ได้เลย ทดสอบแล้ว',
-        en: "Any language that can make an HTTP request. On Node.js you can use Resend's SDK; we've tested it.",
+        th: 'ภาษาไหนที่ส่ง HTTP ได้ก็ใช้ได้',
+        en: "Any language that can make an HTTP request.",
       },
     },
     {

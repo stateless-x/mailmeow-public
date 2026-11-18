@@ -33,12 +33,13 @@ describe('JSON-LD', () => {
       for (const price of ['$9', '$12', '฿299', '฿399']) expect(s).not.toContain(price);
     }
   });
-  test('landing: WebSite and SoftwareApplication with live features only', () => {
+  test('landing: WebSite and SoftwareApplication with live features only, minus the ones kept out of JSON-LD', () => {
     const g = build('landing', 'en');
     expect(type(g, 'WebSite')).toBeDefined();
     const list = type(g, 'SoftwareApplication').featureList as string[];
-    expect(list).toHaveLength(FEATURES.filter((f) => f.status === 'live').length);
+    expect(list).toHaveLength(FEATURES.filter((f) => f.status === 'live' && f.inJsonLd !== false).length);
     expect(list).not.toContain('Billing');
+    expect(list.join(' ')).not.toMatch(/resend/i);
   });
   test('subpages: AboutPage or WebPage plus BreadcrumbList', () => {
     expect(type(build('about', 'en'), 'AboutPage')).toBeDefined();

@@ -41,6 +41,9 @@ export interface Feature {
   plannedFor?: string;
   /** Slug of the page that explains it. Must exist in PAGES. */
   linksTo?: string;
+  /** false keeps it out of the JSON-LD featureList (still listed on /about). Used for the Resend row:
+   *  Resend is named only where it helps someone switching (copy/landing.md, Rules). */
+  inJsonLd?: false;
 }
 
 export interface Creator {

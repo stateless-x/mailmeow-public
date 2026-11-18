@@ -54,7 +54,7 @@ export function buildJsonLd({ entity, features, page, lang, faq, crumb, homeLabe
         description: page.description[lang],
         url,
         creator: { '@id': c.id },
-        featureList: features.filter((f) => f.status === 'live').map((f) => f.label[lang]),
+        featureList: features.filter((f) => f.status === 'live' && f.inJsonLd !== false).map((f) => f.label[lang]),
       },
     );
   } else {
