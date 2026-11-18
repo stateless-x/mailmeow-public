@@ -91,7 +91,7 @@ export const PAGES: PageEntry[] = [
       en: 'Acceptable-use terms | mailmeow',
     },
     description: {
-      th: 'ส่งอีเมลแบบไหนผ่าน mailmeow ได้ แบบไหนห้ามส่ง ระบบหยุดส่งเมื่อไร และข้อมูลในเวิร์กสเปซเก็บนานแค่ไหน',
+      th: 'ส่งอีเมลแบบไหนผ่าน mailmeow ได้ แบบไหนห้ามส่ง ระบบหยุดส่งเมื่อไร และข้อมูลใน Workspace เก็บนานแค่ไหน',
       en: 'What you may and may not send through mailmeow, when sending is paused, and how long workspace data is kept.',
     },
     nav: { label: { th: 'ข้อตกลงการใช้งาน', en: 'Acceptable-use terms' }, header: false },
@@ -128,13 +128,13 @@ export const FEATURES: Feature[] = [
   {
     id: 'test-keys',
     status: 'live',
-    label: { th: 'คีย์ทดสอบไม่ส่งถึงใครจริง', en: 'Test keys never reach real inboxes' },
+    label: { th: 'API key ทดสอบไม่ส่งถึงใครจริง', en: 'Test keys never reach real inboxes' },
     proof: 'docs/user/concepts.md',
   },
   {
     id: 'browser-key-block',
     status: 'live',
-    label: { th: 'คีย์ที่อยู่ในโค้ดหน้าเว็บจะโดนบล็อก พร้อมบอกวิธีย้าย', en: 'Keys in browser code are blocked, with steps to move them' },
+    label: { th: 'API key ที่อยู่ในโค้ดหน้าเว็บจะโดนบล็อก พร้อมบอกวิธีย้าย', en: 'Keys in browser code are blocked, with steps to move them' },
     proof: 'docs/user/api-reference.md',
   },
   {

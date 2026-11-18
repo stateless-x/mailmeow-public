@@ -18,7 +18,7 @@ export const LANDING = {
     eyebrow: { th: 'Email API ที่ใช้ SDK Node.js ของ Resend ได้', en: "Email API that works with Resend's Node.js SDK" },
     h1: { th: 'ส่งอีเมลจากแอปได้จริง ==ไม่ต้องเก่ง DNS==', en: 'Email from your app, ==without the DNS headache.==' },
     sub: {
-      th: 'ลองด้วยคีย์ทดสอบได้ ไม่มีอีเมลหลุดไปถึงคนจริง ส่งผ่าน AWS ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอก่อน',
+      th: 'ลองด้วย API key ทดสอบได้ ไม่มีอีเมลหลุดไปถึงคนจริง ส่งผ่าน AWS ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอก่อน',
       en: 'Test keys never reach real inboxes. Sent through AWS in Singapore. Join the waitlist while we finish it.',
     },
     cta: { th: 'ลงชื่อรอใช้', en: 'Join the waitlist' },
@@ -39,11 +39,11 @@ export const LANDING = {
     heading: { th: 'ทำมาให้คนที่เขียนแอปกับ AI', en: 'Made for building with AI' },
     items: [
       {
-        th: '**คีย์ไม่หลุดง่าย** ถ้าเผลอใส่คีย์ไว้ในโค้ดหน้าเว็บ ระบบจะไม่ยอมส่ง และบอกวิธีย้ายคีย์ไปไว้ฝั่ง server',
+        th: '**API key ไม่หลุดง่าย** ถ้าเผลอใส่ API key ไว้ในโค้ดหน้าเว็บ ระบบจะไม่ยอมส่ง และบอกวิธีย้าย API key ไปไว้ฝั่ง server',
         en: "**Keys that don't leak easily.** Put a key in browser code by mistake? We block the send and show you how to move it to your server.",
       },
       {
-        th: '**ลองได้ ไม่ต้องกลัวพลาด** คีย์ทดสอบไม่ส่งอีเมลไปถึงคนจริงสักฉบับ',
+        th: '**ลองได้ ไม่ต้องกลัวพลาด** API key ทดสอบไม่ส่งอีเมลไปถึงคนจริงสักฉบับ',
         en: '**Test without fear.** Test keys never send to real people.',
       },
       {
@@ -60,7 +60,7 @@ export const LANDING = {
     heading: { th: 'พอเปิดให้ใช้ เริ่มได้ใน 3 ขั้น', en: 'When it opens: three steps to your first email' },
     items: [
       {
-        title: { th: 'สมัครแล้วรับคีย์ทดสอบ', en: 'Sign up, get a test key' },
+        title: { th: 'สมัครแล้วรับ API key ทดสอบ', en: 'Sign up, get a test key' },
         body: { th: 'ลองส่งได้ทันที ยังไม่ต้องตั้งโดเมน', en: 'Send test emails right away. No domain setup yet.' },
       },
       {
@@ -72,7 +72,7 @@ export const LANDING = {
       },
       {
         title: { th: 'ยืนยันโดเมน แล้วส่งจริง', en: 'Verify your domain and go live' },
-        body: { th: 'ก๊อปค่า DNS ไปวางตามขั้นตอน เสร็จแล้วเปลี่ยนเป็นคีย์จริงได้เลย', en: 'Copy the DNS values step by step, then switch to a live key.' },
+        body: { th: 'ก๊อปค่า DNS ไปวางตามขั้นตอน เสร็จแล้วเปลี่ยนเป็น API key จริงได้เลย', en: 'Copy the DNS values step by step, then switch to a live key.' },
       },
     ] as { title: Bi; body: Bi }[],
   },
@@ -163,16 +163,16 @@ export const LANDING = {
       },
     },
     {
-      q: { th: 'คีย์ทดสอบส่งถึงอีเมลจริงไหม', en: 'Can a test key email real people?' },
+      q: { th: 'API key ทดสอบส่งถึงอีเมลจริงไหม', en: 'Can a test key email real people?' },
       a: {
-        th: 'ไม่ส่ง คีย์ที่ขึ้นต้นด้วย `mm_test_` ไม่ส่งอีเมลไปถึงใครจริง แต่สถานะจะขึ้นเหมือนส่งจริง ลองระบบได้เต็มที่',
+        th: 'ไม่ส่ง API key ที่ขึ้นต้นด้วย `mm_test_` ไม่ส่งอีเมลไปถึงใครจริง แต่สถานะจะขึ้นเหมือนส่งจริง ลองระบบได้เต็มที่',
         en: 'No. Keys starting with `mm_test_` never reach a real inbox, but statuses show up as if they did, so you can try everything.',
       },
     },
     {
       q: { th: 'ใส่ API key ในโค้ดหน้าเว็บแล้วได้ 403 ทำไม', en: 'Why do I get a 403 when my API key is in browser code?' },
       a: {
-        th: 'เพราะใครเปิดหน้าเว็บก็เห็นคีย์นั้นได้ mailmeow เลยไม่ยอมส่ง และบอกใน error ว่าย้ายคีย์ไปไว้ฝั่ง server ยังไง',
+        th: 'เพราะใครเปิดหน้าเว็บก็เห็น API key นั้นได้ mailmeow เลยไม่ยอมส่ง และบอกใน error ว่าย้าย API key ไปไว้ฝั่ง server ยังไง',
         en: 'Anyone who opens the page could copy that key, so mailmeow refuses the send and the error explains how to move the key to your server.',
       },
     },

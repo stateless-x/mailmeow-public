@@ -32,14 +32,14 @@ export const MIGRATE = {
       },
       code: 'RESEND_BASE_URL=https://api.mailmeow.dev\nRESEND_API_KEY=mm_live_xxxxxxxxxxxx',
       note: {
-        th: 'ถ้าเรียก API ตรง เปลี่ยน URL จาก `https://api.resend.com` เป็น `https://api.mailmeow.dev` แล้วใช้คีย์ของ mailmeow ข้อมูลที่ส่งและได้กลับมาเหมือนเดิม',
+        th: 'ถ้าเรียก API ตรง เปลี่ยน URL จาก `https://api.resend.com` เป็น `https://api.mailmeow.dev` แล้วใช้ API key ของ mailmeow ข้อมูลที่ส่งและได้กลับมาเหมือนเดิม',
         en: 'Calling the API directly? Change the URL from `https://api.resend.com` to `https://api.mailmeow.dev` and use a mailmeow key. Request and response bodies stay the same.',
       },
     },
     three: {
       title: { th: 'ลองส่ง 1 ฉบับ', en: 'Send a test' },
       body: {
-        th: 'ส่งอีเมลหาตัวเองด้วยโค้ดเดิม แล้วเช็กสถานะผ่าน `GET /emails/{id}` ว่าส่งแล้วหรือถึงแล้ว อยากลองก่อนยืนยันโดเมน ใช้คีย์ที่ขึ้นต้นด้วย `mm_test_` ได้ อีเมลจะไม่ไปถึงใครจริง',
+        th: 'ส่งอีเมลหาตัวเองด้วยโค้ดเดิม แล้วเช็กสถานะผ่าน `GET /emails/{id}` ว่าส่งแล้วหรือถึงแล้ว อยากลองก่อนยืนยันโดเมน ใช้ API key ที่ขึ้นต้นด้วย `mm_test_` ได้ อีเมลจะไม่ไปถึงใครจริง',
         en: 'Send one email to yourself with your existing code, then check its status with `GET /emails/{id}`. Want to try before verifying your domain? Use a `mm_test_` key: nothing reaches a real inbox.',
       },
     },
@@ -81,7 +81,7 @@ export const MIGRATE = {
         en: "Opens and clicks aren't tracked yet. Batch send, Audiences and the Broadcasts API aren't available yet.",
       },
       {
-        th: 'อีเมลทดสอบอย่าง `delivered@resend.dev` ใช้ไม่ได้ ให้ใช้คีย์ `mm_test_` แทน',
+        th: 'อีเมลทดสอบอย่าง `delivered@resend.dev` ใช้ไม่ได้ ให้ใช้ API key `mm_test_` แทน',
         en: "Test addresses like `delivered@resend.dev` don't apply. Use a `mm_test_` key instead.",
       },
     ] as Bi[],
@@ -105,7 +105,7 @@ export const MIGRATE = {
     {
       q: { th: 'ต้องแก้โค้ดไหม', en: 'Do I need to change my code?' },
       a: {
-        th: 'ส่วนใหญ่ไม่ต้อง ถ้าใช้ SDK Node.js ของ Resend หรือเรียก API ตรง เปลี่ยนแค่ base URL กับคีย์ ถ้าโค้ดส่งฟิลด์ที่ยังไม่รองรับ จะได้ 422 ที่บอกชื่อฟิลด์ ต้องเอาฟิลด์นั้นออกก่อน',
+        th: 'ส่วนใหญ่ไม่ต้อง ถ้าใช้ SDK Node.js ของ Resend หรือเรียก API ตรง เปลี่ยนแค่ base URL กับ API key ถ้าโค้ดส่งฟิลด์ที่ยังไม่รองรับ จะได้ 422 ที่บอกชื่อฟิลด์ ต้องเอาฟิลด์นั้นออกก่อน',
         en: "Usually not. With Resend's Node.js SDK or direct API calls, you change only the base URL and key. If your code sends a field we don't support yet, you get a `422` naming it, and you need to remove that field.",
       },
     },

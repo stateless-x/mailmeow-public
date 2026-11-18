@@ -18,7 +18,7 @@ export const PRIVACY_PRODUCT = {
       blocks: [
         { p: { th: 'ภูรินท์ บุรีวงศ์ (Pooh) ให้บริการ mailmeow ในฐานะบุคคลธรรมดา ในหน้านี้ "เรา" หมายถึง Pooh', en: 'mailmeow is run by Pooh (Purin Buriwong), as an individual. In this notice, "we" means Pooh.' } },
         { p: { th: 'ข้อมูลบัญชีของคุณ คือ อีเมล session ลิงก์เข้าสู่ระบบ และคำเชิญ เราเป็นผู้ควบคุมข้อมูลส่วนบุคคล', en: 'For your account (your email, sessions, sign-in links and invites), we are the data controller.' } },
-        { p: { th: 'อีเมลที่คุณส่งและข้อมูลของผู้รับ เวิร์กสเปซของคุณ (คนหรือธุรกิจที่ใช้เวิร์กสเปซนั้นส่งอีเมล) เป็นผู้ควบคุมข้อมูลส่วนบุคคล เราเป็นผู้ประมวลผลข้อมูลส่วนบุคคล และใช้ข้อมูลนี้แค่เพื่อส่งอีเมลและติดตามสถานะการส่งให้คุณ', en: 'For the email you send and its recipients, your workspace (the person or business that sends through it) is the data controller. We process that data only to deliver your email and track its delivery.' } },
+        { p: { th: 'อีเมลที่คุณส่งและข้อมูลของผู้รับ Workspace ของคุณ (คนหรือธุรกิจที่ใช้ Workspace นั้นส่งอีเมล) เป็นผู้ควบคุมข้อมูลส่วนบุคคล เราเป็นผู้ประมวลผลข้อมูลส่วนบุคคล และใช้ข้อมูลนี้แค่เพื่อส่งอีเมลและติดตามสถานะการส่งให้คุณ', en: 'For the email you send and its recipients, your workspace (the person or business that sends through it) is the data controller. We process that data only to deliver your email and track its delivery.' } },
         { p: { th: 'ถ้าคุณได้รับอีเมลที่ส่งผ่าน mailmeow และอยากขอดูหรือขอลบข้อมูลของตัวเอง ให้ติดต่อคนหรือธุรกิจที่ส่งอีเมลนั้นมา', en: 'If you received an email sent through mailmeow and want to see or delete your data, contact the person or business that sent it.' } },
       ],
     },
@@ -29,7 +29,7 @@ export const PRIVACY_PRODUCT = {
           ul: {
             th: [
               'อีเมลของคุณ เวลาที่สร้างบัญชี และเวลาที่เข้าสู่ระบบล่าสุด',
-              'เวิร์กสเปซที่คุณเป็นสมาชิก และบทบาทในแต่ละเวิร์กสเปซ (เจ้าของ แอดมิน หรือสมาชิก)',
+              'Workspace ที่คุณเป็นสมาชิก และบทบาทในแต่ละ Workspace (เจ้าของ แอดมิน หรือสมาชิก)',
               'เวลาที่คุณกดรับคำเชิญ เพราะตอนนั้นคุณยอมรับข้อตกลงการใช้งานด้วย',
               'session ตอนเข้าสู่ระบบ: เราเก็บรหัส session ที่แปลงเป็นรหัสทางเดียว (hash) แล้ว ไม่เก็บตัวจริง พร้อมเวลาที่เริ่ม เวลาที่ใช้ล่าสุด เวลาหมดอายุ และชื่อเบราว์เซอร์กับระบบที่คุณใช้ (user agent)',
               'ลิงก์เข้าสู่ระบบ: เก็บเป็น hash ใช้ได้ครั้งเดียว และหมดอายุใน 15 นาที',
@@ -45,7 +45,7 @@ export const PRIVACY_PRODUCT = {
             ],
           },
         },
-        { p: { th: 'ใช้ข้อมูลนี้เพื่อให้คุณเข้าสู่ระบบได้ เห็นเฉพาะเวิร์กสเปซที่คุณเป็นสมาชิก ส่งลิงก์เข้าสู่ระบบกับคำเชิญ และรู้ว่าคุณยอมรับข้อตกลงการใช้งานแล้ว', en: 'We use it to sign you in, show you only the workspaces you belong to, send sign-in links and invites, and know that you accepted the acceptable-use terms.' } },
+        { p: { th: 'ใช้ข้อมูลนี้เพื่อให้คุณเข้าสู่ระบบได้ เห็นเฉพาะ Workspace ที่คุณเป็นสมาชิก ส่งลิงก์เข้าสู่ระบบกับคำเชิญ และรู้ว่าคุณยอมรับข้อตกลงการใช้งานแล้ว', en: 'We use it to sign you in, show you only the workspaces you belong to, send sign-in links and invites, and know that you accepted the acceptable-use terms.' } },
       ],
     },
     {
@@ -69,7 +69,7 @@ export const PRIVACY_PRODUCT = {
             ],
           },
         },
-        { p: { th: 'หลังลบเนื้อหาอีเมลแล้ว ที่อยู่ผู้รับ ชื่อเรื่อง และสถานะการส่งยังอยู่ในประวัติของเวิร์กสเปซ 90 วัน แล้วเราลบ หรือลบเร็วกว่านั้นถ้าเจ้าของลบเวิร์กสเปซ', en: "After the body is deleted, the recipient addresses, subject and delivery events stay in the workspace's history for 90 days, then we delete them, or sooner if an owner deletes the workspace." } },
+        { p: { th: 'หลังลบเนื้อหาอีเมลแล้ว ที่อยู่ผู้รับ ชื่อเรื่อง และสถานะการส่งยังอยู่ในประวัติของ Workspace 90 วัน แล้วเราลบ หรือลบเร็วกว่านั้นถ้าเจ้าของลบ Workspace', en: "After the body is deleted, the recipient addresses, subject and delivery events stay in the workspace's history for 90 days, then we delete them, or sooner if an owner deletes the workspace." } },
       ],
     },
     {
@@ -97,7 +97,7 @@ export const PRIVACY_PRODUCT = {
       heading: { th: 'ใครที่ mailmeow เห็นข้อมูลได้', en: 'Who at mailmeow can see it' },
       blocks: [
         { p: { th: 'หน้าจอแอดมินของเราเห็นแค่ตัวเลขรวม เช่น จำนวนอีเมลที่ส่ง อัตราตีกลับ และอัตราถูกแจ้งสแปม', en: 'Our admin screens show totals only, such as emails sent, bounce rate and spam-report rate.' } },
-        { p: { th: 'ถ้าเราต้องเปิดดูอีเมลหรือผู้รับของเวิร์กสเปซไหนเพื่อช่วยแก้ปัญหา ต้องบันทึกเหตุผลก่อนทุกครั้ง ทุกครั้งที่เปิดดูจะลงบันทึกไว้ และเจ้าของเวิร์กสเปซนั้นเห็นบันทึกนี้ได้', en: "To open a workspace's emails or recipients to help with a problem, we must record a reason first. Every such access is logged, and that workspace's owner can see it." } },
+        { p: { th: 'ถ้าเราต้องเปิดดูอีเมลหรือผู้รับของ Workspace ไหนเพื่อช่วยแก้ปัญหา ต้องบันทึกเหตุผลก่อนทุกครั้ง ทุกครั้งที่เปิดดูจะลงบันทึกไว้ และเจ้าของ Workspace นั้นเห็นบันทึกนี้ได้', en: "To open a workspace's emails or recipients to help with a problem, we must record a reason first. Every such access is logged, and that workspace's owner can see it." } },
         { p: { th: 'บันทึกการทำงานของแอดมินไม่เก็บที่อยู่ผู้รับหรือเนื้อหาอีเมล', en: 'The admin audit log never holds recipient addresses or email content.' } },
       ],
     },
@@ -119,7 +119,7 @@ export const PRIVACY_PRODUCT = {
             ],
           },
         },
-        { p: { th: 'dashboard ยังจำเวิร์กสเปซที่คุณใช้ล่าสุดไว้ในเบราว์เซอร์ (localStorage) ค่านี้อยู่ในเครื่องคุณเท่านั้น', en: 'The dashboard also remembers your last-used workspace in your browser (localStorage). It stays on your device.' } },
+        { p: { th: 'dashboard ยังจำ Workspace ที่คุณใช้ล่าสุดไว้ในเบราว์เซอร์ (localStorage) ค่านี้อยู่ในเครื่องคุณเท่านั้น', en: 'The dashboard also remembers your last-used workspace in your browser (localStorage). It stays on your device.' } },
       ],
     },
     {
@@ -130,9 +130,9 @@ export const PRIVACY_PRODUCT = {
             th: [
               'ขอดูข้อมูลของคุณที่เราเก็บไว้',
               'ขอแก้ข้อมูลที่ไม่ถูกต้อง',
-              'ออกจากเวิร์กสเปซได้ทุกเมื่อ',
+              'ออกจาก Workspace ได้ทุกเมื่อ',
               'ลบบัญชีตัวเองได้ใน dashboard',
-              'เจ้าของลบเวิร์กสเปซได้ใน dashboard โดยพิมพ์ชื่อเวิร์กสเปซเพื่อยืนยัน ภายใน 7 วัน เราจะลบข้อมูลทั้งหมดของเวิร์กสเปซนั้น ได้แก่ อีเมล สถานะการส่ง คีย์ทุกอัน webhook ทุกตัว และรายชื่อผู้รับที่ถูกบล็อก',
+              'เจ้าของลบ Workspace ได้ใน dashboard โดยพิมพ์ชื่อ Workspace เพื่อยืนยัน ภายใน 7 วัน เราจะลบข้อมูลทั้งหมดของ Workspace นั้น ได้แก่ อีเมล สถานะการส่ง API key ทุกอัน webhook ทุกตัว และรายชื่อผู้รับที่ถูกบล็อก',
               'ร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.)',
             ],
             en: [
@@ -145,7 +145,7 @@ export const PRIVACY_PRODUCT = {
             ],
           },
         },
-        { p: { th: 'ถ้าคุณเป็นเจ้าของคนสุดท้ายของเวิร์กสเปซ ต้องโอนสิทธิ์เจ้าของให้สมาชิกคนอื่น หรือลบเวิร์กสเปซก่อน ถึงจะออกจากเวิร์กสเปซหรือลบบัญชีได้ เพราะทุกเวิร์กสเปซต้องมีเจ้าของอย่างน้อย 1 คน', en: 'If you are the last owner of a workspace, transfer ownership to another member or delete the workspace before you leave it or delete your account. Every workspace must have at least one owner.' } },
+        { p: { th: 'ถ้าคุณเป็นเจ้าของคนสุดท้ายของ Workspace ต้องโอนสิทธิ์เจ้าของให้สมาชิกคนอื่น หรือลบ Workspace ก่อน ถึงจะออกจาก Workspace หรือลบบัญชีได้ เพราะทุก Workspace ต้องมีเจ้าของอย่างน้อย 1 คน', en: 'If you are the last owner of a workspace, transfer ownership to another member or delete the workspace before you leave it or delete your account. Every workspace must have at least one owner.' } },
         { p: { th: 'ขอดูหรือขอแก้ข้อมูล ส่งอีเมลมาที่ {contact} จากอีเมลที่ใช้เข้าสู่ระบบ บอกว่าอยากทำอะไร', en: 'To see or correct your data, email {contact} from the address you sign in with and tell us what you want.' } },
       ],
     },
@@ -156,14 +156,14 @@ export const PRIVACY_PRODUCT = {
           ul: {
             th: [
               'บัญชีของคุณ: จนกว่าคุณจะลบบัญชี',
-              'บทบาทในเวิร์กสเปซ: จนกว่าคุณจะออกเอง มีคนเอาคุณออก หรือเจ้าของลบเวิร์กสเปซ',
+              'บทบาทใน Workspace: จนกว่าคุณจะออกเอง มีคนเอาคุณออก หรือเจ้าของลบ Workspace',
               'session: หมดอายุเมื่อไม่ได้ใช้ 7 วัน หรือครบ 30 วัน แล้วเราลบ session ที่หมดอายุภายใน 30 วันหลังหมดอายุ',
               'ลิงก์เข้าสู่ระบบ: หมดอายุใน 15 นาที แล้วเราลบภายใน 30 วันหลังหมดอายุ',
               'คำเชิญ: หมดอายุใน 7 วัน หรือ 72 ชั่วโมงสำหรับคำเชิญเจ้าของ แล้วเราลบภายใน 30 วันหลังหมดอายุ',
               'เนื้อหาอีเมล: 7 วันในแพ็กเกจ Free และ 30 วันในแพ็กเกจที่จ่ายเงิน',
               'ที่อยู่ผู้รับ ชื่อเรื่อง และสถานะการส่ง: 90 วัน',
-              'ผู้รับที่ถูกบล็อก: จนกว่าเจ้าของหรือแอดมินจะเอาออก หรือเจ้าของลบเวิร์กสเปซ',
-              'เวิร์กสเปซที่เจ้าของลบ: ลบข้อมูลหมดภายใน 7 วัน',
+              'ผู้รับที่ถูกบล็อก: จนกว่าเจ้าของหรือแอดมินจะเอาออก หรือเจ้าของลบ Workspace',
+              'Workspace ที่เจ้าของลบ: ลบข้อมูลหมดภายใน 7 วัน',
               'รายงานผลการส่งจาก AWS: เราลบภายใน 7 วันหลังอ่านแล้ว ถ้ายังไม่ได้อ่าน คิวเก็บไว้นานสุด 14 วัน',
               'บันทึกการทำงานของแอดมิน:',
               'ข้อมูลสำรอง (backup):',
