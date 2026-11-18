@@ -7,6 +7,10 @@ import { validateRegistry, findEmptyTranslations } from '../../src/lib/validate'
 import { LANDING, ABOUT, WHAT_IS } from '../../src/data/copy/landing';
 import { MIGRATE } from '../../src/data/copy/migrate';
 import { PRIVACY } from '../../src/data/copy/privacy';
+import { TERMS, TERMS_BANNER } from '../../src/data/copy/terms';
+import { PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING } from '../../src/data/copy/privacy-product';
+import { TERMS_MARKERS } from './fixtures/terms-legal-check';
+import { PRIVACY_PRODUCT_MARKERS } from './fixtures/privacy-product-markers';
 import { FORM, FOOTER, THANKS } from '../../src/data/copy/common';
 
 const live = (over: Partial<Feature> = {}): Feature => ({ id: 'x', status: 'live', label: { th: 'ก', en: 'a' }, proof: 'docs/user/api-reference.md', ...over });
@@ -43,14 +47,44 @@ describe('registry rules (SITE.md)', () => {
 
 describe('copy', () => {
   test('no empty or length-mismatched TH/EN anywhere in the copy', () => {
-    const all = { LANDING, ABOUT, WHAT_IS, MIGRATE, PRIVACY, FORM, FOOTER, THANKS };
+    const all = { LANDING, ABOUT, WHAT_IS, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS };
     expect(findEmptyTranslations(all, 'copy')).toEqual([]);
   });
   test('no middle dot in Thai copy, no time claims, no founder wording', () => {
-    const json = JSON.stringify({ LANDING, ABOUT, MIGRATE, PRIVACY, FORM, FOOTER, THANKS, WHAT_IS });
+    const json = JSON.stringify({ LANDING, ABOUT, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS, WHAT_IS });
     expect(json).not.toMatch(/·/);
-    expect(json).not.toMatch(/5 นาที|in 5 minutes|10 minutes/);
+    expect(json).not.toMatch(/(?<!\d)5 นาที|in 5 minutes|10 minutes/);
     expect(json).not.toMatch(/Founder|ผู้ก่อตั้ง/);
+  });
+  /** Every th/en string in a copy object, one blob per language. */
+  const blob = (copy: unknown) => {
+    const text = { th: '', en: '' };
+    const walk = (v: unknown): void => {
+      if (Array.isArray(v)) return v.forEach(walk);
+      if (v && typeof v === 'object') {
+        for (const [k, x] of Object.entries(v)) {
+          if ((k === 'th' || k === 'en') && typeof x === 'string') text[k] += x + '\n';
+          else if ((k === 'th' || k === 'en') && Array.isArray(x)) text[k] += x.join('\n') + '\n';
+          else walk(x);
+        }
+      }
+    };
+    walk(copy);
+    return text;
+  };
+  test('terms and product-privacy copy show no marker, and every marked sentence is still in the copy', () => {
+    for (const copy of [TERMS, PRIVACY_PRODUCT]) expect(JSON.stringify(copy)).not.toMatch(/legal check|\[\?\]/i);
+    const cases = [
+      { text: blob(TERMS), markers: TERMS_MARKERS, legal: 16, unsettled: 0 },
+      { text: blob(PRIVACY_PRODUCT), markers: PRIVACY_PRODUCT_MARKERS, legal: 7, unsettled: 3 },
+    ];
+    for (const { text, markers, legal, unsettled } of cases) {
+      for (const lang of ['th', 'en'] as const) {
+        expect(markers.legalCheck[lang]).toHaveLength(legal);
+        expect(markers.unsettled[lang]).toHaveLength(unsettled);
+        for (const sentence of [...markers.legalCheck[lang], ...markers.unsettled[lang]]) expect(text[lang], sentence).toContain(sentence);
+      }
+    }
   });
   test('titles and descriptions never carry the price', () => {
     for (const p of PAGES) if (p.status === 'live') for (const price of ['$9', '$12', '฿299', '฿399']) expect(JSON.stringify([p.title, p.description])).not.toContain(price);

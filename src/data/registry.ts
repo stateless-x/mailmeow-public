@@ -9,6 +9,8 @@ export const ENTITY: Entity = {
   docsLive: false,
   lastVerified: '2026-11-17',
   privacyUpdated: '2026-11-17',
+  termsUpdated: '2026-11-18',
+  privacyProductUpdated: '2026-11-18',
   creator: {
     id: 'https://mailmeow.dev/#creator',
     name: 'Pooh',
@@ -18,7 +20,7 @@ export const ENTITY: Entity = {
   },
 };
 
-// Titles and descriptions: copy/landing.md §0, §13; copy/migrate.md; copy/privacy.md.
+// Titles and descriptions: copy/landing.md §0, §13; copy/migrate.md; copy/privacy.md; copy/terms.md.
 export const PAGES: PageEntry[] = [
   {
     slug: '',
@@ -74,10 +76,25 @@ export const PAGES: PageEntry[] = [
       en: 'Privacy notice | mailmeow',
     },
     description: {
-      th: 'mailmeow เก็บข้อมูลอะไรจากฟอร์มลงชื่อรอใช้ เอาไปทำอะไร เก็บที่ไหน นานแค่ไหน และขอลบได้ยังไง',
-      en: "What mailmeow collects from the waitlist form, why, where it's stored, for how long, and how to delete it.",
+      th: 'mailmeow เก็บข้อมูลอะไรเมื่อคุณใช้ dashboard และ API หรือลงชื่อรอใช้ เก็บไว้ที่ไหน ใครเห็นได้ เก็บนานแค่ไหน และขอลบได้ยังไง',
+      en: "What mailmeow stores when you use the dashboard and the API or join the waitlist, where it's kept, who can see it, for how long, and how to delete it.",
     },
     nav: { label: { th: 'นโยบายความเป็นส่วนตัว', en: 'Privacy' }, header: false },
+  },
+  {
+    slug: 'terms',
+    status: 'live',
+    kind: 'terms',
+    indexable: true,
+    title: {
+      th: 'ข้อตกลงการใช้งาน | mailmeow',
+      en: 'Acceptable-use terms | mailmeow',
+    },
+    description: {
+      th: 'ส่งอีเมลแบบไหนผ่าน mailmeow ได้ แบบไหนห้ามส่ง ระบบหยุดส่งเมื่อไร และข้อมูลในเวิร์กสเปซเก็บนานแค่ไหน',
+      en: 'What you may and may not send through mailmeow, when sending is paused, and how long workspace data is kept.',
+    },
+    nav: { label: { th: 'ข้อตกลงการใช้งาน', en: 'Acceptable-use terms' }, header: false },
   },
   {
     // No title or meta in the copy docs: the thanks copy is assembled from the form's
@@ -91,7 +108,6 @@ export const PAGES: PageEntry[] = [
   },
   { slug: 'pricing', status: 'planned', plannedFor: 'after the price test (a #pricing section on the landing until then)' },
   { slug: 'features', status: 'planned', plannedFor: 'when three of its rows ship' },
-  { slug: 'terms', status: 'planned', plannedFor: 'before the app opens for signup' },
 ];
 
 // Labels: copy/landing.md §13 lists, in order.

@@ -109,6 +109,9 @@ h3 { font-size: var(--text-lg); font-weight: 500; }
 .card-grid { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
 .card, .form-card { background: var(--card); border: var(--edge-width) solid var(--edge); border-radius: calc(var(--radius) + var(--space-1)); box-shadow: var(--lip); padding: var(--card-pad); }
 
+/* Draft notice at the top of /terms */
+.draft-banner { max-width: var(--measure); padding: var(--space-3) var(--space-4); background: var(--highlight); color: var(--highlight-foreground); border: var(--edge-width) solid var(--edge); border-radius: var(--space-1); font-weight: 500; }
+
 /* Pricing plans (landing #pricing) */
 .plan h3 { margin: 0; }
 .plan-price { font-weight: 600; margin-block: var(--space-2) var(--space-3); }

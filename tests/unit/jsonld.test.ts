@@ -10,7 +10,7 @@ const type = (g: { '@graph': Record<string, any>[] }, t: string): Record<string,
 
 describe('JSON-LD', () => {
   test('Organization and a local Person on every page, Person is local', () => {
-    for (const kind of ['landing', 'migrate', 'about', 'privacy', 'thanks']) {
+    for (const kind of ['landing', 'migrate', 'about', 'privacy', 'terms', 'thanks']) {
       const g = build(kind, 'en');
       expect(type(g, 'Organization')['@id']).toBe('https://mailmeow.dev/#organization');
       expect(type(g, 'Organization').creator).toBeUndefined();

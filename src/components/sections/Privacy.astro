@@ -1,16 +1,37 @@
 ---
 import { PRIVACY as P } from '../../data/copy/privacy';
+import { PRIVACY_PRODUCT as PP, PRIVACY_BANNER, WAITLIST_HEADING } from '../../data/copy/privacy-product';
+import { ENTITY } from '../../data/registry';
 import type { Lang } from '../../data/types';
 import Rich from '../Rich.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+// {date} in the product notice is its own date; the waitlist notice keeps ENTITY.privacyUpdated.
+const productDate = (text: string) => text.replace('{date}', ENTITY.privacyProductUpdated);
 ---
 <section class="section prose-page" aria-labelledby="p-h1">
-  <h1 id="p-h1" class="page-title">{P.h1[lang]}</h1>
+  <p class="draft-banner" role="note">{PRIVACY_BANNER[lang]}</p>
+  <h1 id="p-h1" class="page-title">{lang === 'th' ? 'นโยบายความเป็นส่วนตัว' : 'Privacy notice'}</h1>
+
+  <h2 id="product">{PP.h1[lang]}</h2>
+  <p class="prose"><Rich text={PP.intro[lang]} lang={lang} /></p>
+  {PP.sections.map((s) => (
+    <>
+      <h3>{s.heading[lang]}</h3>
+      {s.blocks.map((b) =>
+        'p' in b
+          ? <p class="prose"><Rich text={b.p[lang]} lang={lang} /></p>
+          : <ul class="plain-list">{b.ul[lang].map((i) => <li><Rich text={i} lang={lang} /></li>)}</ul>,
+      )}
+    </>
+  ))}
+  <p class="prose muted"><Rich text={productDate(PP.updated[lang])} lang={lang} /></p>
+
+  <h2 id="waitlist-notice">{WAITLIST_HEADING[lang]}</h2>
   <p class="prose">{P.intro[lang]}</p>
   {P.sections.map((s) => (
     <>
-      <h2>{s.heading[lang]}</h2>
+      <h3>{s.heading[lang]}</h3>
       {s.body && <p class="prose"><Rich text={s.body[lang]} lang={lang} /></p>}
       {s.list && <ul class="plain-list">{s.list[lang].map((i) => <li><Rich text={i} lang={lang} /></li>)}</ul>}
       {s.extra?.map((e) => <p class="prose"><Rich text={e[lang]} lang={lang} /></p>)}

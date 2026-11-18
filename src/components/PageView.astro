@@ -11,6 +11,7 @@ import Landing from './sections/Landing.astro';
 import Migrate from './sections/Migrate.astro';
 import About from './sections/About.astro';
 import Privacy from './sections/Privacy.astro';
+import Terms from './sections/Terms.astro';
 import Thanks from './sections/Thanks.astro';
 
 interface Props { lang: Lang; page: LivePage }
@@ -35,5 +36,6 @@ const jsonLd = buildJsonLd({
   {page.kind === 'migrate' && <Migrate lang={lang} />}
   {page.kind === 'about' && <About lang={lang} />}
   {page.kind === 'privacy' && <Privacy lang={lang} />}
+  {page.kind === 'terms' && <Terms lang={lang} />}
   {page.kind === 'thanks' && <Thanks lang={lang} />}
 </Base>

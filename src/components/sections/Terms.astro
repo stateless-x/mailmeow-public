@@ -1,0 +1,26 @@
+---
+import { TERMS as T, TERMS_BANNER } from '../../data/copy/terms';
+import { ENTITY } from '../../data/registry';
+import type { Lang } from '../../data/types';
+import Rich from '../Rich.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+// {date} on this page is the terms' own date, not the privacy notice's.
+const t = (text: string) => text.replace('{date}', ENTITY.termsUpdated);
+---
+<section class="section prose-page" aria-labelledby="t-h1">
+  <p class="draft-banner" role="note">{TERMS_BANNER[lang]}</p>
+  <h1 id="t-h1" class="page-title">{T.h1[lang]}</h1>
+  <p class="prose muted"><Rich text={t(T.version[lang])} lang={lang} /></p>
+  <p class="prose"><Rich text={T.intro[lang]} lang={lang} /></p>
+  {T.sections.map((s) => (
+    <>
+      <h2>{s.heading[lang]}</h2>
+      {s.blocks.map((b) =>
+        'p' in b
+          ? <p class="prose"><Rich text={b.p[lang]} lang={lang} /></p>
+          : <ul class="plain-list">{b.ul[lang].map((i) => <li><Rich text={i} lang={lang} /></li>)}</ul>,
+      )}
+    </>
+  ))}
+</section>

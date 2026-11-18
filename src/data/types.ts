@@ -3,7 +3,7 @@ export const LANGS: readonly Lang[] = ['th', 'en'];
 /** A value that exists in both languages. Both must be non-empty. */
 export type Bi<T = string> = { th: T; en: T };
 
-export type PageKind = 'landing' | 'migrate' | 'about' | 'privacy' | 'thanks';
+export type PageKind = 'landing' | 'migrate' | 'about' | 'privacy' | 'terms' | 'thanks';
 
 interface PageBase {
   /** URL segment after /th/ or /en/. '' is the landing page. */
@@ -63,5 +63,16 @@ export interface Entity {
   lastVerified: string;
   /** Fills {date} on /privacy. */
   privacyUpdated: string;
+  /** Fills {date} on /terms. */
+  termsUpdated: string;
+  /** Fills {date} in the product privacy notice on /privacy. */
+  privacyProductUpdated: string;
   creator: Creator;
+}
+
+/** A paragraph or a bulleted list, in the order the legal copy gives them. */
+export type LegalBlock = { p: Bi } | { ul: Bi<string[]> };
+export interface LegalSection {
+  heading: Bi;
+  blocks: LegalBlock[];
 }
