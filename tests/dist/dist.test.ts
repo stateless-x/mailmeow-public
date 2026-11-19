@@ -7,7 +7,7 @@ import { join } from 'node:path';
 const root = join(import.meta.dir, '../..');
 const dist = join(root, 'dist');
 
-const SLUGS = ['', 'migrate-from-resend', 'about', 'privacy', 'terms', 'waitlist-thanks'];
+const SLUGS = ['', 'migrate-from-resend', 'about', 'privacy', 'terms', 'waitlist-thanks', 'otp-email-not-arriving', 'spf-dkim-dmarc'];
 const LANGS = ['th', 'en'] as const;
 const file = (lang: string, slug: string) => join(dist, lang, slug, 'index.html');
 const html = (lang: string, slug: string) => readFileSync(file(lang, slug), 'utf8');
@@ -72,6 +72,20 @@ describe('built pages', () => {
       expect(stripTags(/<main>[\s\S]*?<\/main>/.exec(h)![0])).not.toMatch(/resend/i);
       // The switching page stays reachable from the footer.
       expect(h).toContain(`href="/${lang}/migrate-from-resend/"`);
+    }
+  });
+
+  test('guides: one H1, the direct answer first, FAQ JSON-LD, a share image, and the landing links down to them', () => {
+    for (const lang of LANGS) {
+      for (const slug of ['otp-email-not-arriving', 'spf-dkim-dmarc']) {
+        const h = html(lang, slug);
+        expect(h.match(/<h1[\s>]/g)).toHaveLength(1);
+        expect(h).toMatch(/<\/h1>\s*<p class="lede">/);
+        expect(h).toContain('"@type":"FAQPage"');
+        expect(h).toContain(`<meta property="og:image" content="https://mailmeow.dev/og-${lang}.png">`);
+        expect(stripTags(h)).not.toMatch(/\bAWS\b|\bSES\b|Singapore|สิงคโปร์/);
+        expect(html(lang, '')).toContain(`href="/${lang}/${slug}/"`);
+      }
     }
   });
 

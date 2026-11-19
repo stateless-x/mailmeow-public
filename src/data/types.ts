@@ -3,7 +3,7 @@ export const LANGS: readonly Lang[] = ['th', 'en'];
 /** A value that exists in both languages. Both must be non-empty. */
 export type Bi<T = string> = { th: T; en: T };
 
-export type PageKind = 'landing' | 'migrate' | 'about' | 'privacy' | 'terms' | 'thanks';
+export type PageKind = 'landing' | 'migrate' | 'about' | 'privacy' | 'terms' | 'thanks' | 'guide';
 
 interface PageBase {
   /** URL segment after /th/ or /en/. '' is the landing page. */

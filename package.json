@@ -14,7 +14,8 @@
     "test:unit": "bun test tests/unit",
     "test:dist": "bun test tests/dist",
     "preflight": "bun run scripts/preflight.ts",
-    "check": "bun run typecheck && bun run test:unit && bun run build && bun run test:dist"
+    "check": "bun run typecheck && bun run test:unit && bun run build && bun run test:dist",
+    "og": "bash scripts/og.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.5",

@@ -5,6 +5,7 @@ import { FEATURES, PAGES } from '../../src/data/registry';
 import type { Feature, PageEntry } from '../../src/data/types';
 import { validateRegistry, findEmptyTranslations } from '../../src/lib/validate';
 import { LANDING, ABOUT, WHAT_IS } from '../../src/data/copy/landing';
+import { GUIDES, GUIDE_CTA } from '../../src/data/copy/guides';
 import { MIGRATE } from '../../src/data/copy/migrate';
 import { PRIVACY } from '../../src/data/copy/privacy';
 import { TERMS, TERMS_BANNER } from '../../src/data/copy/terms';
@@ -47,11 +48,11 @@ describe('registry rules (SITE.md)', () => {
 
 describe('copy', () => {
   test('no empty or length-mismatched TH/EN anywhere in the copy', () => {
-    const all = { LANDING, ABOUT, WHAT_IS, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS };
+    const all = { LANDING, GUIDES, GUIDE_CTA, ABOUT, WHAT_IS, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS };
     expect(findEmptyTranslations(all, 'copy')).toEqual([]);
   });
   test('no middle dot in Thai copy, no time claims, no founder wording', () => {
-    const json = JSON.stringify({ LANDING, ABOUT, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS, WHAT_IS });
+    const json = JSON.stringify({ LANDING, GUIDES, GUIDE_CTA, ABOUT, MIGRATE, PRIVACY, TERMS, TERMS_BANNER, PRIVACY_PRODUCT, PRIVACY_BANNER, WAITLIST_HEADING, FORM, FOOTER, THANKS, WHAT_IS });
     expect(json).not.toMatch(/·/);
     expect(json).not.toMatch(/(?<!\d)5 นาที|in 5 minutes|10 minutes/);
     expect(json).not.toMatch(/Founder|ผู้ก่อตั้ง/);

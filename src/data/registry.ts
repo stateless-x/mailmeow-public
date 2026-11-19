@@ -106,6 +106,31 @@ export const PAGES: PageEntry[] = [
     title: { th: 'ลงชื่อแล้ว | mailmeow', en: "You're on the list. | mailmeow" },
     description: { th: 'ลงชื่อแล้ว', en: "You're on the list." },
   },
+  // Topic hubs (seo-architect: one query shape each; the landing FAQ links down to them).
+  {
+    slug: 'otp-email-not-arriving',
+    status: 'live',
+    kind: 'guide',
+    indexable: true,
+    title: { th: 'อีเมล OTP ไม่เข้า เกิดจากอะไร แก้ยังไง | mailmeow', en: 'OTP emails not arriving? Causes and fixes | mailmeow' },
+    description: {
+      th: 'อีเมล OTP ไม่เข้าเกิดจากอะไร เช็กสถานะอีเมลก่อน แล้วไล่ 4 สาเหตุที่เจอบ่อย พร้อมวิธีเขียนอีเมล OTP ให้ถึงง่ายขึ้น',
+      en: "Why OTP emails don't arrive: check the email's status first, then the four usual causes, and how to write OTP emails that get through.",
+    },
+    nav: { label: { th: 'อีเมล OTP ไม่เข้า', en: 'OTP emails not arriving' }, header: false },
+  },
+  {
+    slug: 'spf-dkim-dmarc',
+    status: 'live',
+    kind: 'guide',
+    indexable: true,
+    title: { th: 'SPF DKIM DMARC คืออะไร ตั้งยังไง | mailmeow', en: 'What are SPF, DKIM and DMARC? How to set them up | mailmeow' },
+    description: {
+      th: 'SPF DKIM และ DMARC คือ DNS record 3 ตัวที่ยืนยันว่าอีเมลมาจากโดเมนนี้จริง อธิบายแบบไม่ต้องเก่ง DNS พร้อมขั้นตอนตั้งค่าและข้อผิดพลาดที่เจอบ่อย',
+      en: 'SPF, DKIM and DMARC are three DNS records that prove email really comes from your domain. A plain explanation, setup steps and the usual mistakes.',
+    },
+    nav: { label: { th: 'SPF DKIM DMARC คืออะไร', en: 'SPF, DKIM and DMARC' }, header: false },
+  },
   { slug: 'pricing', status: 'planned', plannedFor: 'after the price test (a #pricing section on the landing until then)' },
   { slug: 'features', status: 'planned', plannedFor: 'when three of its rows ship' },
 ];

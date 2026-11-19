@@ -34,6 +34,9 @@ const canonical = absoluteUrl(pagePath(lang, page.slug));
 const title = page.title[lang];
 const description = page.description[lang];
 const beacon = env.PUBLIC_CF_BEACON_TOKEN;
+// Share card per language (og/card.html, `bun run og`), 1200x630.
+const ogImage = absoluteUrl(`/og-${lang}.png`);
+const ogAlt = lang === 'th' ? 'mailmeow: ลูกค้าไม่ได้รับอีเมล OTP อีกแล้ว' : "mailmeow: Users didn't get their login code. Again.";
 // "<" escaped so the JSON can never close the script tag.
 const ld = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 ---
@@ -53,6 +56,11 @@ const ld = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'th' ? 'th_TH' : 'en_US'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

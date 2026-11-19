@@ -155,10 +155,10 @@ export const LANDING = {
   whatIsHeading: { th: 'mailmeow คืออะไร', en: 'What is mailmeow' },
   faq: [
     {
-      q: { th: 'อีเมล OTP ไม่เข้า เกิดจากอะไร', en: "Why aren't my OTP emails arriving?" },
+      q: { th: 'mailmeow ช่วยเรื่องอีเมล OTP ไม่เข้ายังไง', en: "How does mailmeow help when OTP emails don't arrive?" },
       a: {
-        th: 'สาเหตุที่เจอบ่อยมี 3 อย่าง โดเมนยังไม่ได้ตั้ง SPF DKIM และ DMARC ผู้ให้บริการอีเมลเลยไม่เชื่อใจ ที่อยู่อีเมลพิมพ์ผิดหรือไม่มีอยู่จริงจนตีกลับ หรือบริการที่ใช้ส่งติดลิมิตจนส่งไม่ออก mailmeow เตรียมค่า DNS ให้ครบ และบอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม เลยรู้ว่าต้องแก้ตรงไหน',
-        en: "The usual causes are three: your domain has no SPF, DKIM or DMARC records, so mail providers don't trust it; the address is mistyped or doesn't exist, so the email bounces; or the service you send through hit its limit. mailmeow prepares your DNS values and tells you whether each email was delivered, bounced or marked as spam, so you know what to fix.",
+        th: 'mailmeow เตรียมค่า SPF DKIM และ DMARC ให้ครบ บอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม และหยุดส่งไปยังที่อยู่ที่ตีกลับให้เอง เลยรู้ว่าต้องแก้ตรงไหน ดูสาเหตุทั้งหมดได้ที่ [อีเมล OTP ไม่เข้า เกิดจากอะไร](@otp-email-not-arriving)',
+        en: "mailmeow prepares your SPF, DKIM and DMARC values, shows whether each email was delivered, bounced or marked as spam, and stops sending to addresses that bounce, so you know what to fix. All the usual causes: [OTP emails not arriving?](@otp-email-not-arriving)",
       },
     },
     {
@@ -171,8 +171,8 @@ export const LANDING = {
     {
       q: { th: 'ไม่รู้เรื่อง DNS เลย ทำได้ไหม', en: "I don't know DNS. Can I still do this?" },
       a: {
-        th: 'ได้ mailmeow เตรียมค่า DKIM SPF และ DMARC ของโดเมนให้ แค่ก๊อปไปวางในที่ตั้งค่า DNS ส่วนหน้าที่บอกทีละขั้นและเช็กให้ว่าครบหรือยัง กำลังทำอยู่',
-        en: 'Yes. mailmeow prepares the DKIM, SPF and DMARC values for your domain; you paste them into your DNS settings. A step-by-step page that checks them for you is in progress.',
+        th: 'ได้ mailmeow เตรียมค่า DKIM SPF และ DMARC ของโดเมนให้ แค่ก๊อปไปวางในที่ตั้งค่า DNS ส่วนหน้าที่บอกทีละขั้นและเช็กให้ว่าครบหรือยัง กำลังทำอยู่ ดูว่าแต่ละตัวคืออะไรที่ [SPF DKIM DMARC คืออะไร](@spf-dkim-dmarc)',
+        en: 'Yes. mailmeow prepares the DKIM, SPF and DMARC values for your domain; you paste them into your DNS settings. A step-by-step page that checks them for you is in progress. What each one is: [SPF, DKIM and DMARC](@spf-dkim-dmarc).',
       },
     },
     {

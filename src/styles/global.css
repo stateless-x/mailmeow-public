@@ -235,6 +235,32 @@ p.versus-label.versus-fix { border-top: var(--edge-width) solid var(--edge); bor
 .code-block { background: var(--card); border: var(--edge-width) solid var(--edge); border-radius: calc(var(--radius) + var(--space-1)); box-shadow: var(--lip); padding: var(--space-3) var(--space-4); font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.65; overflow-x: auto; margin-block: var(--space-2); }
 .code-block code { background: none; padding: 0; font-size: inherit; }
 
+/* Guides (topic hubs): one column, direct answer first */
+.guide { max-width: 52rem; padding-block: var(--space-12) var(--space-8); }
+.guide-head { display: grid; gap: var(--space-4); padding-bottom: var(--space-8); }
+.guide h1 { font-size: var(--text-display); font-weight: 600; }
+.guide-section { padding-block: var(--space-8); }
+.guide-section > * + * { margin-top: var(--space-4); }
+.guide-list { display: grid; gap: var(--space-3); padding-left: 1.2em; list-style: disc; }
+.guide-list.is-ordered { list-style: decimal; }
+.guide-list li::marker { color: var(--muted-foreground); }
+.guide-helps { margin-block: var(--space-8); }
+.guide-helps > * + * { margin-top: var(--space-4); }
+.guide-related { color: var(--muted-foreground); padding-top: var(--space-4); }
+/* Tables (DESIGN.md §Components, Table): no outer edge, no zebra, hairlines */
+.table-wrap { overflow-x: auto; }
+.guide table { width: 100%; border-collapse: collapse; }
+.guide thead th { font-size: var(--text-sm); font-weight: 500; color: var(--muted-foreground); text-align: left; padding: var(--space-2); border-bottom: 1px solid var(--border); }
+.guide tbody :is(th, td) { text-align: left; vertical-align: top; padding: var(--space-3) var(--space-2); border-bottom: 1px solid var(--border); }
+.guide tbody th { font-weight: 600; white-space: nowrap; }
+@media (max-width: 767px) {
+  .guide table, .guide tbody, .guide tr, .guide tbody :is(th, td) { display: block; }
+  .guide thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .guide tr { padding-block: var(--space-3); border-bottom: 1px solid var(--border); }
+  .guide tbody :is(th, td) { border: 0; padding: var(--space-1) 0; white-space: normal; }
+  .guide td::before { content: attr(data-label); display: block; font-size: var(--text-sm); color: var(--muted-foreground); }
+}
+
 /* FAQ */
 .faq { max-width: var(--measure); }
 .faq details { border-bottom: 1px solid var(--border); padding-block: var(--space-3); }

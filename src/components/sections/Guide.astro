@@ -1,0 +1,57 @@
+---
+// Topic hub (seo-architect "hub" layer): direct answer first, tables and lists, one CTA.
+import { GUIDES, GUIDE_CTA } from '../../data/copy/guides';
+import { PAGES } from '../../data/registry';
+import type { Lang, LivePage } from '../../data/types';
+import { pagePath } from '../../lib/seo';
+import Rich from '../Rich.astro';
+import FaqList from '../FaqList.astro';
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const g = GUIDES[slug]!;
+const related = PAGES.find((p): p is LivePage => p.status === 'live' && p.slug === g.related)!;
+---
+<article class="guide">
+  <header class="guide-head">
+    <h1>{g.h1[lang]}</h1>
+    <p class="lede"><Rich text={g.lead[lang]} lang={lang} /></p>
+  </header>
+
+  {g.sections.map((s, i) => (
+    <section class="guide-section" aria-labelledby={`g-${i}`}>
+      <h2 id={`g-${i}`}>{s.heading[lang]}</h2>
+      {s.intro && <p class="prose"><Rich text={s.intro[lang]} lang={lang} /></p>}
+      {s.table && (
+        <div class="table-wrap">
+          <table>
+            <thead><tr>{s.table.cols.map((c) => <th scope="col">{c[lang]}</th>)}</tr></thead>
+            <tbody>
+              {s.table.rows.map((row) => (
+                <tr>{row.map((cell, j) => (j === 0 ? <th scope="row"><Rich text={cell[lang]} lang={lang} /></th> : <td data-label={s.table!.cols[j]![lang]}><Rich text={cell[lang]} lang={lang} /></td>))}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {s.list && (s.ordered
+        ? <ol class="guide-list is-ordered">{s.list.map((item) => <li><Rich text={item[lang]} lang={lang} /></li>)}</ol>
+        : <ul class="guide-list">{s.list.map((item) => <li><Rich text={item[lang]} lang={lang} /></li>)}</ul>)}
+    </section>
+  ))}
+
+  <section class="guide-helps card" aria-labelledby="g-helps">
+    <h2 id="g-helps">{g.helps.heading[lang]}</h2>
+    <ul class="guide-list">{g.helps.list.map((item) => <li><Rich text={item[lang]} lang={lang} /></li>)}</ul>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href={`${pagePath(lang, '')}#waitlist`}>{GUIDE_CTA.cta[lang]}</a>
+      <p class="under-cta">{GUIDE_CTA.note[lang]}</p>
+    </div>
+  </section>
+
+  <section class="guide-section" aria-labelledby="g-faq">
+    <h2 id="g-faq">{GUIDE_CTA.faqHeading[lang]}</h2>
+    <FaqList items={g.faq} lang={lang} />
+  </section>
+
+  <p class="guide-related">{GUIDE_CTA.related[lang]}: <a href={pagePath(lang, related.slug)}>{related.nav!.label[lang]}</a></p>
+</article>
