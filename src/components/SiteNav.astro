@@ -1,20 +1,62 @@
 ---
 import { livePages, pagePath } from '../lib/seo';
-import { NAV_CTA } from '../data/copy/common';
+import { NAV, NAV_CTA } from '../data/copy/common';
 import type { Lang } from '../data/types';
 import LangToggle from './LangToggle.astro';
+import Icon from './Icon.astro';
 interface Props { lang: Lang; slug: string }
 const { lang, slug } = Astro.props;
-const links = livePages().filter((p) => p.nav?.header);
+const home = pagePath(lang, '');
+// Section links point at the landing; on the landing itself they stay in-page.
+const onLanding = slug === '';
+const section = (id: string) => (onLanding ? `#${id}` : `${home}#${id}`);
+const links = [
+  { href: section('how'), label: NAV.how[lang] },
+  { href: section('pricing'), label: NAV.pricing[lang] },
+  { href: section('faq'), label: NAV.faq[lang] },
+  ...livePages()
+    .filter((p) => p.nav?.header)
+    .map((p) => ({ href: pagePath(lang, p.slug), label: p.nav!.label[lang], current: p.slug === slug })),
+] as { href: string; label: string; current?: boolean }[];
+// Only the landing and the migrate page carry the form.
+const ctaHref = onLanding || slug === 'migrate-from-resend' ? '#waitlist' : `${home}#waitlist`;
 ---
 <header class="site-nav">
-  <a class="wordmark" href={pagePath(lang, '')}>
+  <a class="wordmark" href={home}>
     <svg class="mark" viewBox="0 0 24 12" aria-hidden="true"><path d="M4 6h12" stroke="currentColor" stroke-width="1.5"/><circle cx="3.5" cy="6" r="2" fill="currentColor"/><circle cx="11" cy="6" r="2" fill="currentColor"/><circle cx="19.5" cy="6" r="4.5" fill="currentColor"/></svg>
     <span>mailmeow</span>
   </a>
-  <nav class="links" aria-label="Site">
-    {links.map((p) => <a href={pagePath(lang, p.slug)} aria-current={p.slug === slug ? 'page' : undefined}>{p.nav!.label[lang]}</a>)}
+  <nav class="links" aria-label={NAV.menu[lang]}>
+    {links.map((l) => <a href={l.href} aria-current={l.current ? 'page' : undefined}>{l.label}</a>)}
   </nav>
-  <LangToggle lang={lang} slug={slug} />
-  <a class="btn btn-primary" href="#waitlist">{NAV_CTA[lang]}</a>
+  <div class="nav-lang"><LangToggle lang={lang} slug={slug} /></div>
+  <a class="btn btn-primary nav-cta" href={ctaHref}>{NAV_CTA[lang]}</a>
+
+  <!-- Phones: a disclosure, so the menu opens without JavaScript. The script only closes it. -->
+  <details class="nav-menu" data-nav-menu>
+    <summary class="btn nav-toggle" aria-label={NAV.menu[lang]}>
+      <Icon name="menu" class="when-closed" />
+      <Icon name="x" class="when-open" />
+    </summary>
+    <div class="nav-panel">
+      <nav aria-label={NAV.menu[lang]}>
+        <ul>
+          {links.map((l) => <li><a href={l.href} aria-current={l.current ? 'page' : undefined}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+      <LangToggle lang={lang} slug={slug} />
+    </div>
+  </details>
 </header>
+<script>
+  // Close the phone menu after a link is chosen, on Escape, and on a tap outside it.
+  const menu = document.querySelector<HTMLDetailsElement>('[data-nav-menu]');
+  if (menu) {
+    const close = () => { menu.open = false; };
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.open) { close(); menu.querySelector('summary')?.focus(); }
+    });
+    document.addEventListener('click', (e) => { if (menu.open && !menu.contains(e.target as Node)) close(); });
+  }
+</script>

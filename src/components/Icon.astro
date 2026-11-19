@@ -1,0 +1,14 @@
+---
+// Line icons from Lucide (ISC), redrawn inline so the static site loads nothing.
+// DESIGN.md §Shapes: 16px, 1.75 stroke, round caps, one line family.
+interface Props { name: 'clock' | 'sent' | 'check' | 'x' | 'menu'; class?: string }
+const { name, class: cls } = Astro.props;
+const paths: Record<Props['name'], string> = {
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  sent: '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  menu: '<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>',
+};
+---
+<svg class:list={['icon', cls]} viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={paths[name]} />

@@ -18,6 +18,14 @@ export const FOOTER = {
 
 export const NAV_CTA: Bi = { th: 'ลงชื่อรอใช้', en: 'Join the waitlist' };
 
+/** Header links to landing sections (copy/landing.md §12a). About comes from the page registry. */
+export const NAV = {
+  how: { th: 'เริ่มยังไง', en: 'How to start' },
+  pricing: { th: 'ราคา', en: 'Pricing' },
+  faq: { th: 'คำถาม', en: 'FAQ' },
+  menu: { th: 'เมนู', en: 'Menu' },
+} satisfies Record<string, Bi>;
+
 /**
  * /waitlist-thanks has no copy of its own in the docs. It reuses the two sentences of the
  * form's success message that need no email address. Reported as a gap.

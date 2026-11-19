@@ -9,31 +9,52 @@ export interface Faq {
 
 /** §9 "What is mailmeow": the same text on the landing and as the lead of /about. */
 export const WHAT_IS: Bi = {
-  th: 'mailmeow คือ email API สำหรับส่งอีเมลจากแอป เช่น รหัส OTP และอีเมลยืนยัน ส่งผ่าน AWS SES ที่สิงคโปร์ และเช็กผ่าน API ได้ว่าแต่ละฉบับส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน และอยากเปิดให้คนไทยที่ทำแอปกับ AI ใช้ด้วย ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
-  en: "mailmeow is an email API for sending email from your app, such as login codes and confirmation emails. It sends through AWS SES in Singapore, and the API tells you whether each email was sent, delivered, bounced or marked as spam. Pooh (Purin Buriwong) built it for his own apps first and wants to open it to Thai builders who make apps with AI. It is not open for signup yet; join the waitlist.",
+  th: 'mailmeow คือ email API สำหรับคนไทยที่ทำแอปกับ AI ใช้ส่งอีเมลจากแอป เช่น รหัส OTP และอีเมลยืนยัน เตรียมค่า SPF DKIM และ DMARC ให้ครบ และบอกได้ทุกฉบับว่าส่งแล้ว ถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ภูรินท์ บุรีวงศ์ (Pooh) ทำไว้ใช้กับแอปของตัวเองก่อน ตอนนี้ยังไม่เปิดให้สมัคร ลงชื่อรอใช้ได้ก่อน',
+  en: "mailmeow is an email API for Thai builders who make apps with AI. It sends email from your app, such as login codes and confirmation emails, prepares your SPF, DKIM and DMARC values, and tells you whether each email was sent, delivered, bounced or marked as spam. Pooh (Purin Buriwong) built it for his own apps first. It is not open for signup yet; join the waitlist.",
 };
 
 export const LANDING = {
   hero: {
-    eyebrow: { th: 'Email API สำหรับแอปที่ทำกับ AI', en: "Email API for apps built with AI" },
-    h1: { th: 'ส่งอีเมลจากแอปได้จริง ==ไม่ต้องเก่ง DNS==', en: 'Email from your app, ==without the DNS headache.==' },
+    h1: { th: 'ลูกค้าไม่ได้รับอีเมล OTP ==อีกแล้ว==', en: "Users didn't get their login code. ==Again.==" },
     sub: {
-      th: 'ลองด้วย API key ทดสอบได้ ไม่มีอีเมลหลุดไปถึงคนจริง ส่งผ่าน AWS ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอก่อน',
-      en: 'Test keys never reach real inboxes. Sent through AWS in Singapore. Join the waitlist while we finish it.',
+      th: 'mailmeow คือ email API ที่ส่งอีเมล OTP จากแอปให้ และบอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ไม่ต้องเก่ง DNS ก็ตั้งค่าเองได้',
+      en: "mailmeow is an email API that sends your app's login codes and shows whether each one was delivered, bounced or marked as spam. You don't need to know DNS to set it up.",
     },
     cta: { th: 'ลงชื่อรอใช้', en: 'Join the waitlist' },
-    underCta: { th: 'ไม่ต้องใช้บัตร', en: 'No card needed' },
+    underCta: { th: 'ยังไม่เปิดให้ใช้ ลงชื่อไว้ก่อนได้ ไม่ต้องใช้บัตร', en: 'Not open yet. Join the waitlist, no card needed.' },
+    /** The hero card: an example of one email's status, the way the dashboard shows it. */
+    demo: {
+      label: { th: 'ตัวอย่างหน้าดูสถานะอีเมล', en: 'Example: one email in the dashboard' },
+      tag: { th: 'ตัวอย่าง', en: 'Example' },
+      subject: { th: 'รหัสเข้าสู่ระบบ 482913', en: 'Your login code: 482913' },
+      to: { th: 'ถึง', en: 'To' },
+      events: [
+        { status: 'queued', label: { th: 'รอคิว', en: 'Queued' }, detail: { th: 'แอปส่งคำขอมาแล้ว', en: 'Your app asked us to send it' }, time: '09:41:02' },
+        { status: 'sent', label: { th: 'ส่งแล้ว', en: 'Sent' }, detail: { th: 'กำลังไปที่ gmail.com', en: 'On its way to gmail.com' }, time: '09:41:03' },
+        { status: 'delivered', label: { th: 'ส่งถึงแล้ว', en: 'Delivered' }, detail: { th: 'เซิร์ฟเวอร์ของ gmail.com รับแล้ว', en: 'Accepted by gmail.com' }, time: '09:41:05' },
+      ] as { status: 'queued' | 'sent' | 'delivered'; label: Bi; detail: Bi; time: string }[],
+      note: { th: 'ถ้าตีกลับหรือถูกแจ้งสแปม ก็ขึ้นตรงนี้ พร้อมเหตุผล', en: 'Bounced or marked as spam? It shows here, with the reason.' },
+    },
   },
   problem: {
     heading: { th: 'ส่งอีเมลจากแอป ไม่ควรยากขนาดนี้', en: "Sending email from your app shouldn't be this hard" },
-    body: {
-      th: 'แค่อยากให้แอปส่งรหัส OTP หรืออีเมลยืนยัน แต่พอเจอคำว่า DNS SPF DKIM ก็ไม่รู้จะเริ่มตรงไหน ส่งไปแล้วบางฉบับยังเข้า spam อีก',
-      en: 'You just want your app to send a login code. Then you hit words like DNS, SPF and DKIM. And some emails still land in spam.',
-    },
-    turn: {
-      th: 'mailmeow เตรียมค่า DNS ของโดเมนให้ครบ และกำลังทำหน้าตั้งค่าที่บอกทีละขั้นว่าต้องก๊อปอะไรไปวางตรงไหน แล้วเช็กให้ว่าครบหรือยัง',
-      en: "mailmeow prepares every DNS value for your domain, and we're building a setup page that shows what to copy where, then checks it for you.",
-    },
+    nowLabel: { th: 'ตอนนี้', en: 'Today' },
+    fixLabel: { th: 'กับ mailmeow', en: 'With mailmeow' },
+    /** Each pain sits beside the fix on the same row. */
+    rows: [
+      {
+        now: { th: 'เจอคำว่า DNS SPF DKIM แล้วไม่รู้จะเริ่มตรงไหน', en: 'DNS, SPF, DKIM: no idea where to start.' },
+        fix: { th: 'mailmeow เตรียมค่า DNS ให้ครบ แค่ก๊อปไปวาง', en: 'mailmeow prepares every DNS value. You copy and paste.' },
+      },
+      {
+        now: { th: 'ใช้ Gmail ส่งแก้ขัดไปก่อน แล้วก็ติดลิมิต', en: 'Gmail works as a stopgap, until it hits its limit.' },
+        fix: { th: 'ส่งจากโดเมนของแอปเอง ลูกค้าเห็นชื่อแอป ไม่ใช่ @gmail.com', en: "Send from your app's own domain, so users see your app's name, not @gmail.com." },
+      },
+      {
+        now: { th: 'ลูกค้าทักมาว่าไม่ได้รับรหัส แต่ไม่รู้ว่าอีเมลไปติดที่ไหน', en: "A user says the code never came, and you can't tell where the email went." },
+        fix: { th: 'เห็นทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม', en: 'See whether each email was delivered, bounced or marked as spam.' },
+      },
+    ] as { now: Bi; fix: Bi }[],
   },
   aiCoding: {
     heading: { th: 'ทำมาให้คนที่เขียนแอปกับ AI', en: 'Made for building with AI' },
@@ -134,6 +155,20 @@ export const LANDING = {
   whatIsHeading: { th: 'mailmeow คืออะไร', en: 'What is mailmeow' },
   faq: [
     {
+      q: { th: 'อีเมล OTP ไม่เข้า เกิดจากอะไร', en: "Why aren't my OTP emails arriving?" },
+      a: {
+        th: 'สาเหตุที่เจอบ่อยมี 3 อย่าง โดเมนยังไม่ได้ตั้ง SPF DKIM และ DMARC ผู้ให้บริการอีเมลเลยไม่เชื่อใจ ที่อยู่อีเมลพิมพ์ผิดหรือไม่มีอยู่จริงจนตีกลับ หรือบริการที่ใช้ส่งติดลิมิตจนส่งไม่ออก mailmeow เตรียมค่า DNS ให้ครบ และบอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม เลยรู้ว่าต้องแก้ตรงไหน',
+        en: "The usual causes are three: your domain has no SPF, DKIM or DMARC records, so mail providers don't trust it; the address is mistyped or doesn't exist, so the email bounces; or the service you send through hit its limit. mailmeow prepares your DNS values and tells you whether each email was delivered, bounced or marked as spam, so you know what to fix.",
+      },
+    },
+    {
+      q: { th: 'ใช้ Gmail ส่งอีเมลจากแอปได้ไหม', en: 'Can I just send app email through Gmail?' },
+      a: {
+        th: 'ส่งได้ แต่เหมาะกับช่วงลองเท่านั้น Gmail มีลิมิตต่อวัน อีเมลออกจากชื่อ @gmail.com ไม่ใช่โดเมนของแอป และดูไม่ได้ว่าแต่ละฉบับถึงไหม mailmeow ส่งจากโดเมนของแอปเอง และเช็กสถานะได้ทุกฉบับ',
+        en: "It works for trying things out. Gmail has a daily limit, sends from your @gmail.com address instead of your app's domain, and can't tell you whether each email arrived. mailmeow sends from your app's own domain and shows the status of every email.",
+      },
+    },
+    {
       q: { th: 'ไม่รู้เรื่อง DNS เลย ทำได้ไหม', en: "I don't know DNS. Can I still do this?" },
       a: {
         th: 'ได้ mailmeow เตรียมค่า DKIM SPF และ DMARC ของโดเมนให้ แค่ก๊อปไปวางในที่ตั้งค่า DNS ส่วนหน้าที่บอกทีละขั้นและเช็กให้ว่าครบหรือยัง กำลังทำอยู่',
@@ -169,8 +204,11 @@ export const LANDING = {
       },
     },
     {
-      q: { th: 'mailmeow ส่งผ่านอะไร', en: 'What does mailmeow send through?' },
-      a: { th: 'ส่งผ่าน AWS SES ที่สิงคโปร์', en: 'AWS SES in Singapore.' },
+      q: { th: 'Email API คืออะไร', en: 'What is an email API?' },
+      a: {
+        th: 'Email API คือบริการที่ให้แอปส่งอีเมลด้วยโค้ดไม่กี่บรรทัด โดยไม่ต้องตั้ง mail server เอง mailmeow เป็น email API ที่คนทำแอปกับ AI ตั้งค่าเองได้ ไม่ต้องเก่ง DNS',
+        en: 'An email API lets your app send email with a few lines of code, without running a mail server. mailmeow is an email API you can set up yourself, even if you build with AI and have never touched DNS.',
+      },
     },
     {
       q: { th: 'ฟรีจริงไหม', en: 'Is the free plan really free?' },

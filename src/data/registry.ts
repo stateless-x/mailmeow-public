@@ -28,12 +28,12 @@ export const PAGES: PageEntry[] = [
     kind: 'landing',
     indexable: true,
     title: {
-      th: 'Email API ส่งอีเมล OTP จากแอป | mailmeow',
-      en: "Email API for sending email from your app | mailmeow",
+      th: 'Email API ส่งอีเมล OTP จากแอป เช็กได้ว่าถึงไหม | mailmeow',
+      en: 'Email API for OTP emails: see if each one arrived | mailmeow',
     },
     description: {
-      th: 'mailmeow คือ email API ส่งรหัส OTP และอีเมลจากแอปผ่าน AWS SES ที่สิงคโปร์ ตอนนี้เปิดให้ลงชื่อรอใช้',
-      en: "mailmeow is an email API for login codes and app emails, sent through AWS SES in Singapore. Join the waitlist.",
+      th: 'ลูกค้าไม่ได้รับอีเมล OTP แล้วไม่รู้ว่าติดตรงไหน mailmeow คือ email API ที่บอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม และเตรียมค่า DNS ให้ครบ ลงชื่อรอใช้',
+      en: 'Users never got the login code? mailmeow is an email API that tells you if each email was delivered, bounced or marked as spam. Join the waitlist.',
     },
   },
   {
@@ -61,8 +61,8 @@ export const PAGES: PageEntry[] = [
       en: 'What is mailmeow? An email API by Pooh | mailmeow',
     },
     description: {
-      th: 'mailmeow คือ email API สำหรับส่งอีเมลจากแอป ทำโดย Pooh (ภูรินท์ บุรีวงศ์) ตอนนี้ทำอะไรได้บ้าง และอะไรที่ยังไม่เสร็จ',
-      en: "mailmeow is an email API for sending email from your app, made by Pooh (Purin Buriwong). What works today and what's still coming.",
+      th: 'mailmeow คือ email API สำหรับคนไทยที่ทำแอปกับ AI ส่งรหัส OTP และอีเมลจากแอป ทำโดย Pooh (ภูรินท์ บุรีวงศ์) ตอนนี้ทำอะไรได้บ้าง และอะไรที่ยังไม่เสร็จ',
+      en: "mailmeow is an email API for Thai builders who make apps with AI: login codes and app emails, made by Pooh (Purin Buriwong). What works today and what's still coming.",
     },
     nav: { label: { th: 'เกี่ยวกับ mailmeow', en: 'About' }, header: true },
   },

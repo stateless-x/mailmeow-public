@@ -28,15 +28,15 @@ const title = (h: string) => entities(/<title>([\s\S]*?)<\/title>/.exec(h)![1]!)
 
 const COPY = {
   th: {
-    h1: 'ส่งอีเมลจากแอปได้จริง ไม่ต้องเก่ง DNS',
-    eyebrow: 'Email API สำหรับแอปที่ทำกับ AI',
+    h1: 'ลูกค้าไม่ได้รับอีเมล OTP อีกแล้ว',
+    lede: 'mailmeow คือ email API ที่ส่งอีเมล OTP จากแอปให้ และบอกได้ทุกฉบับว่าถึงแล้ว ตีกลับ หรือถูกแจ้งสแปม ไม่ต้องเก่ง DNS ก็ตั้งค่าเองได้',
     maker: 'ทำโดย ภูรินท์ บุรีวงศ์ (Pooh)',
     faq: 'ได้ mailmeow เตรียมค่า DKIM SPF และ DMARC ของโดเมนให้ แค่ก๊อปไปวางในที่ตั้งค่า DNS ส่วนหน้าที่บอกทีละขั้นและเช็กให้ว่าครบหรือยัง กำลังทำอยู่',
     migrateH1: 'ย้ายจาก Resend มา mailmeow',
   },
   en: {
-    h1: 'Email from your app, without the DNS headache.',
-    eyebrow: 'Email API for apps built with AI',
+    h1: "Users didn't get their login code. Again.",
+    lede: "mailmeow is an email API that sends your app's login codes and shows whether each one was delivered, bounced or marked as spam. You don't need to know DNS to set it up.",
     maker: 'Made by Pooh (Purin Buriwong)',
     faq: 'Yes. mailmeow prepares the DKIM, SPF and DMARC values for your domain; you paste them into your DNS settings. A step-by-step page that checks them for you is in progress.',
     migrateH1: 'Switch from Resend to mailmeow',
@@ -51,10 +51,11 @@ describe('built pages', () => {
 
   for (const lang of LANGS) {
     const c = COPY[lang];
-    test(`${lang}: H1, eyebrow, footer maker line and an FAQ answer match the copy docs`, () => {
+    test(`${lang}: H1, lede, footer maker line and an FAQ answer match the copy docs`, () => {
       const h = html(lang, '');
       expect(textOf(h, /<h1[^>]*>/, 'h1')).toBe(c.h1);
-      expect(textOf(h, /<p class="eyebrow">/, 'p')).toBe(c.eyebrow);
+      expect(textOf(h, /<p class="lede">/, 'p')).toBe(c.lede);
+      expect(h).not.toContain('class="eyebrow"');
       expect(textOf(h, /<p class="maker">/, 'p')).toBe(c.maker);
       expect(stripTags(h)).toContain(c.faq);
       expect(textOf(html(lang, 'migrate-from-resend'), /<h1[^>]*>/, 'h1')).toBe(c.migrateH1);
@@ -74,6 +75,19 @@ describe('built pages', () => {
     }
   });
 
+  test('header links land on real targets: section ids exist on the landing, and the button finds a form', () => {
+    for (const lang of LANGS) {
+      const landing = html(lang, '');
+      for (const id of ['how', 'pricing', 'faq', 'waitlist']) expect(landing, `${lang} #${id}`).toContain(`id="${id}"`);
+      const about = html(lang, 'about');
+      expect(about).not.toContain('id="waitlist"');
+      expect(about).toContain(`class="btn btn-primary nav-cta" href="/${lang}/#waitlist"`);
+      expect(about).toContain(`href="/${lang}/#pricing"`);
+      // The phone menu is a disclosure, so it opens without JavaScript.
+      expect(landing).toContain('<details class="nav-menu" data-nav-menu>');
+    }
+  });
+
   test('the waitlist form is on the landing and on migrate, with a native fallback and a Turnstile slot', () => {
     for (const lang of LANGS) {
       for (const slug of ['', 'migrate-from-resend']) {
@@ -90,7 +104,7 @@ describe('Thai phrase grouping', () => {
   test('Thai pages wrap heading phrases in .ph spans, English pages have none', () => {
     const th = html('th', '');
     expect(/<h1[^>]*>(?:(?!<\/h1>)[\s\S])*class="ph"/.test(th)).toBe(true);
-    expect(th).toContain('<span class="ph">DNS</span>');
+    expect(th).toContain('<span class="ph">OTP</span>');
     for (const slug of SLUGS) expect(html('en', slug)).not.toContain('class="ph"');
     expect(textOf(th, /<h1[^>]*>/, 'h1')).toBe(COPY.th.h1);
   });

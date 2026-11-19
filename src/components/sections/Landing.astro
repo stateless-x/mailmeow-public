@@ -4,36 +4,82 @@ import type { Lang } from '../../data/types';
 import Rich from '../Rich.astro';
 import FaqList from '../FaqList.astro';
 import WaitlistForm from '../WaitlistForm.astro';
+import Icon from '../Icon.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const L = LANDING;
+const D = L.hero.demo;
+const ICON = { queued: 'clock', sent: 'sent', delivered: 'check' } as const;
+// "**Title** rest" -> title and rest, so each AI item can sit as a row (title column, text column).
+const splitItem = (t: string) => {
+  const m = /^\*\*(.+?)\*\*\s*(.*)$/s.exec(t);
+  return m ? { title: m[1]!, rest: m[2]! } : { title: '', rest: t };
+};
 ---
-<section class="hero section" aria-labelledby="hero-h">
+<section class="hero" aria-labelledby="hero-h">
   <div class="hero-copy">
-    <p class="eyebrow">{L.hero.eyebrow[lang]}</p>
     <h1 id="hero-h"><Rich text={L.hero.h1[lang]} lang={lang} /></h1>
     <p class="lede">{L.hero.sub[lang]}</p>
-    <p class="cta-row"><a class="btn btn-primary btn-lg" href="#waitlist">{L.hero.cta[lang]}</a></p>
-    <p class="under-cta">{L.hero.underCta[lang]}</p>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href="#waitlist">{L.hero.cta[lang]}</a>
+      <p class="under-cta">{L.hero.underCta[lang]}</p>
+    </div>
   </div>
-  <!-- Mascot slot (DESIGN.md): the chosen pixel portrait, whole-number scale, hero only. -->
-  <img class="mascot" src="/mailmeow-portrait@8x.png" alt="" width="192" height="192" />
+
+  <figure class="hero-demo" aria-label={D.label[lang]}>
+    <!-- Mascot slot (DESIGN.md): pixel portrait at a whole-number scale, peeking over the card. -->
+    <img class="mascot" src="/mailmeow-portrait@4x.png" alt="" width="128" height="128" />
+    <div class="demo-card">
+      <div class="demo-head">
+        <p class="demo-subject">{D.subject[lang]}</p>
+        <span class="demo-tag">{D.tag[lang]}</span>
+      </div>
+      <p class="demo-to"><span class="muted">{D.to[lang]}</span> <span class="mono">ploy@example.com</span></p>
+      <ol class="trail">
+        {D.events.map((e, i) => (
+          <li class={`trail-item is-${e.status}`} style={`--i: ${i}`}>
+            <span class="trail-dot"><Icon name={ICON[e.status]} /></span>
+            <span class="trail-label">{e.label[lang]}</span>
+            <span class="trail-detail">{e.detail[lang]}</span>
+            <time class="trail-time mono">{e.time}</time>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <p class="note demo-note">{D.note[lang]}</p>
+  </figure>
 </section>
 
 <section class="section" aria-labelledby="problem-h">
   <h2 id="problem-h">{L.problem.heading[lang]}</h2>
-  <p class="prose">{L.problem.body[lang]}</p>
-  <p class="prose">{L.problem.turn[lang]}</p>
+  <div class="versus">
+    <p class="versus-label versus-now" aria-hidden="true">{L.problem.nowLabel[lang]}</p>
+    <p class="versus-label versus-fix" aria-hidden="true">{L.problem.fixLabel[lang]}</p>
+    {L.problem.rows.map((r) => (
+      <Fragment>
+        <p class="versus-now"><Icon name="x" /><span><span class="sr-only">{L.problem.nowLabel[lang]}: </span>{r.now[lang]}</span></p>
+        <p class="versus-fix"><Icon name="check" /><span><span class="sr-only">{L.problem.fixLabel[lang]}: </span>{r.fix[lang]}</span></p>
+      </Fragment>
+    ))}
+  </div>
 </section>
 
 <section class="section" aria-labelledby="ai-h">
   <h2 id="ai-h">{L.aiCoding.heading[lang]}</h2>
-  <ul class="card-grid">
-    {L.aiCoding.items.map((item) => <li class="card"><Rich text={item[lang]} lang={lang} /></li>)}
+  <ul class="rows">
+    {L.aiCoding.items.map((item) => {
+      const { title, rest } = splitItem(item[lang]);
+      return (
+        <li>
+          <h3>{title}</h3>
+          <p><Rich text={rest} lang={lang} /></p>
+        </li>
+      );
+    })}
   </ul>
 </section>
 
-<section class="section" aria-labelledby="steps-h">
+<section class="section" id="how" aria-labelledby="steps-h">
   <h2 id="steps-h">{L.steps.heading[lang]}</h2>
   <ol class="steps">
     {L.steps.items.map((s, i) => (
@@ -71,7 +117,7 @@ const L = LANDING;
   <p class="prose">{L.pricing.thbNote[lang]}</p>
 </section>
 
-<section class="section" aria-labelledby="faq-h">
+<section class="section" id="faq" aria-labelledby="faq-h">
   <h2 id="faq-h">{L.faqHeading[lang]}</h2>
   <FaqList items={L.faq} lang={lang} />
 </section>
