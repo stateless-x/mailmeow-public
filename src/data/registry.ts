@@ -187,10 +187,15 @@ export const FEATURES: Feature[] = [
     label: { th: 'แนบไฟล์ในอีเมลได้ รวมไม่เกิน 10 MB', en: 'Attachments, up to 10 MB per email' },
     proof: 'docs/user/api-reference.md',
   },
+  {
+    id: 'templates',
+    status: 'live',
+    label: { th: 'เทมเพลตอีเมลไทยและอังกฤษ รวมอีเมลล็อกอินของ Supabase', en: 'Thai and English email templates, including Supabase sign-in emails' },
+    proof: 'mailmeow-docs/tests/unit/templates.test.ts',
+  },
   { id: 'signup-dashboard', status: 'planned', plannedFor: 'Phase 1b', label: { th: 'หน้าสมัครและ dashboard', en: 'Signup and dashboard' } },
   { id: 'ai-prompts', status: 'planned', plannedFor: 'docs.mailmeow.dev launch', label: { th: 'prompt สำหรับเครื่องมือ AI', en: 'Prompts for AI tools' } },
   { id: 'billing', status: 'planned', plannedFor: 'after the waitlist price test', label: { th: 'ระบบจ่ายเงิน', en: 'Billing' } },
-  { id: 'templates', status: 'planned', plannedFor: 'Phase 2', label: { th: 'เทมเพลตอีเมล', en: 'Email templates' } },
   { id: 'wordpress-smtp', status: 'planned', plannedFor: 'Phase 2', label: { th: 'SMTP สำหรับ WordPress', en: 'SMTP for WordPress' } },
   { id: 'scheduled-sends', status: 'planned', plannedFor: 'Phase 1b', label: { th: 'การตั้งเวลาส่ง', en: 'Scheduled sends' } },
 ];

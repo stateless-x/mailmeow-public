@@ -98,15 +98,15 @@ export const LANDING = {
     ] as { title: Bi; body: Bi }[],
   },
   business: {
-    heading: { th: 'เร็ว ๆ นี้ สำหรับร้านค้าและธุรกิจ', en: 'Coming for shops and businesses' },
+    heading: { th: 'สำหรับร้านค้าและธุรกิจ', en: 'For shops and businesses' },
     items: [
       {
         th: '**ใช้กับ WordPress ได้** (เร็ว ๆ นี้) ตั้งค่า SMTP ครั้งเดียว ฟอร์มติดต่อและใบเสร็จก็ส่งถึงลูกค้าจริง',
         en: '**Works with WordPress** (coming). Set up SMTP once. Contact forms and receipts reach your customers.',
       },
       {
-        th: '**เทมเพลตไทยและอังกฤษ** (เร็ว ๆ นี้) รหัส OTP ต้อนรับลูกค้าใหม่ รีเซ็ตรหัสผ่าน และใบเสร็จ',
-        en: '**Thai and English templates** (coming): login codes, welcome, password reset and receipts.',
+        th: '**เทมเพลตไทยและอังกฤษ** รหัส OTP ต้อนรับลูกค้าใหม่ รีเซ็ตรหัสผ่าน และใบเสร็จ',
+        en: '**Thai and English templates**: login codes, welcome, password reset and receipts.',
       },
       {
         th: '**ถามเป็นภาษาไทยได้** ติดตรงไหน ส่งอีเมลมาที่ {contact}',
