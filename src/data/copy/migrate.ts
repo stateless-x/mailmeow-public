@@ -73,8 +73,12 @@ export const MIGRATE = {
     },
     items: [
       {
-        th: '`attachments` (ไฟล์แนบ) `scheduled_at` (ตั้งเวลาส่ง) `template` และ `topic_id`',
-        en: '`attachments`, `scheduled_at`, `template` and `topic_id`',
+        th: '`scheduled_at` (ตั้งเวลาส่ง) `template` และ `topic_id`',
+        en: '`scheduled_at`, `template` and `topic_id`',
+      },
+      {
+        th: 'ไฟล์แนบส่งได้ด้วย `content` (base64) รวมไม่เกิน 10 MB และไม่เกิน 20 ไฟล์ต่ออีเมล ส่วน `path` (ลิงก์ไฟล์) ยังไม่รองรับ',
+        en: 'Attachments work with `content` (base64), up to 10 MB and 20 files per email. `path` (a file URL) is not supported yet.',
       },
       {
         th: 'ยังไม่นับการเปิดอ่านและการคลิก ยังไม่มีการส่งทีละหลายฉบับ (batch) Audiences และ Broadcasts API',
